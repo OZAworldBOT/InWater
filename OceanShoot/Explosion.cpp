@@ -28,7 +28,7 @@ void Explosion::Draw(D3DXVECTOR3 Pos[])
 	{
 		expPoint[i].pos = Pos[i];
 		vertex[i].pos = expPoint[i].pos;
-		vertex[i].size = 0.7f;
+		vertex[i].size = 1.5f;
 		vertex[i].color = 0xffffffff;
 	}
 

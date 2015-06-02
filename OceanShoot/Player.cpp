@@ -22,18 +22,18 @@ Player::Player()
 	camera = new Camera();
 	player = new Graphic();
 
-	model = new Model[2];
-	model[0].LoadMesh("Model/Heli.x");
-	texture = new Texture[2];
-	texture[0].LoadTexture("Texture/enemy2.png");
+	model = new Model("Model/Heli.x");
+	texture = new Texture("Texture/enemy2.png");
 
 	bullet = new Bullet();
 	bomb = new Bomb();
 	razer = new Razer();
+	explosion = new Explosion();
 
 	pBullet = new Pbullet[BULLET_MAX];
 	pBomb = new Pbomb[BOMB_MAX];
 	pRazer = new Prazer[RAZER_MAX];
+	pExp = new Pexplosion[EXPLOSION_MAX];
 
 	DebugLog("プレイヤーを生成しました。\n");
 
@@ -41,6 +41,7 @@ Player::Player()
 	InitBullet();
 	InitBomb();
 	InitRazer();
+	InitExplosion();
 }
 
 //	デストラクタ
@@ -102,19 +103,31 @@ void Player::InitRazer()
 	}
 }
 
+void Player::InitExplosion()
+{
+	for (int i = 0; i < EXPLOSION_MAX; i++)
+	{
+		pExp->Exist[i] = false;
+		pExp->flag = false;
+		pExp->Count[i] = 0;
+	}
+}
+
 //	解放処理
 void Player::Release()
 {
 	delete camera;
 	delete player;
-	delete[] model;
-	delete[] texture;
+	delete model;
+	delete texture;
 	delete bullet;
 	delete bomb;
 	delete razer;
+	delete explosion;
 	delete[] pBullet;
 	delete[] pBomb;
 	delete[] pRazer;
+	delete[] pExp;
 
 	DebugLog("プレイヤーを破棄しました。\n");
 }
@@ -194,7 +207,7 @@ void Player::Shot()
 void Player::Draw()
 {
 	camera->View(camera_Pos, camera_Rot);
-	player->DrawModelTexture(Position, Rotation, Scale, model[0], texture[0]);
+	player->DrawModelTexture(Position, Rotation, Scale, *model, *texture);
 }
 
 
@@ -257,6 +270,8 @@ void Player::BulletShot()
 			if (pBullet->death[i] == true)
 			{
 				pBullet->Pos[i].y = 1000.0f;
+				pBullet->oldPos[i] = pBullet->Pos[i];
+				//CreateExp(&pBullet->oldPos[i], BULLET_MAX);
 			}
 		}
 		bulletState[i] = pBullet->Pos[i];
@@ -339,6 +354,7 @@ void Player::BombShot()
 				if (pBomb->Explosion_Death[i] == true)
 				{
 					pBomb->Explosion_Pos[i].y = 1000.0f;
+					pBomb->oldExplosionPos[i] = pBomb->Explosion_Pos[i];
 				}
 			}
 			bombState[i] = pBomb->Explosion_Pos[i];
@@ -404,6 +420,7 @@ void Player::RazerShot()
 			if (pRazer->death[i] == true)
 			{
 				pRazer->Pos[i].y = 1000.0f;
+				pRazer->oldPos[i] = pRazer->Pos[i];
 			}
 		}
 		razerState[i] = pRazer->Pos[i];
@@ -482,9 +499,31 @@ void Player::Hit()
 }
 
 //	爆発
-void Player::Explosion(D3DXVECTOR3 Pos[])
+void Player::CreateExp(D3DXVECTOR3 Pos[], int Num)
 {
+	srand((unsigned int)time(NULL));
 
+	for (int i = 0; i < Num; i++)
+	{
+		pExp->Pos[i] = Pos[i];
+		pExp->Count[i]++;
+		if (pExp->Count[i] < 30)
+		{
+			timeCount += 0.5f;
+			D3DXVec3Normalize(&pExp->Accel[i], &D3DXVECTOR3(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 40));
+			pExp->Pos[i].y += pExp->Accel[i].y * 1.5f;
+			pExp->Pos[i].x += pExp->Accel[i].x * 1.5f;
+			pExp->Pos[i].z += pExp->Accel[i].z * 1.5f;
+			explosion->Draw(&pExp->Pos[i]);
+		}
+		if (pExp->Count[i] > 30)
+		{
+			pExp->Exist[i] = false;
+			pExp->Count[i] = 0;
+			timeCount = 0;
+		}
+
+	}
 }
 
 

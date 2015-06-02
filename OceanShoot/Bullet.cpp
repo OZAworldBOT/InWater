@@ -11,7 +11,6 @@ Bullet::Bullet()
 	bulletPoint = new bullet_point[BULLET_MAX];
 	texture = new Texture("Texture/ball.bmp");
 	bullet = new Graphic();
-
 }
 
 Bullet::~Bullet()

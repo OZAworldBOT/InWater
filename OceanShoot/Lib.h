@@ -11,11 +11,11 @@
 //	define定義
 //----------------------------------------------------
 #define BUBBLE_MAX 600			//	泡の最大個数
+#define ENEMY_MAX 30			//	敵の最大個数
+#define EXPLOSION_MAX 30		//	爆発の最大個数
 #define BULLET_MAX 30			//	プレイヤーの弾の最大個数
 #define BOMB_MAX 100			//	プレイヤーの爆弾の最大個数
 #define RAZER_MAX 200			//	プレイヤーのレーザーの最大個数
-#define ENEMY_MAX 30			//	敵の最大個数
-#define EXPLOSION_MAX 30		//	爆発の最大個数
 
 //----------------------------------------------------
 //	インクルードファイル
@@ -36,7 +36,8 @@
 #include "Texture.h"
 #include "Light.h"
 #include "Camera.h"
-//	Math
+//	Shader
+
 
 //	Object
 #include "Bullet.h"
