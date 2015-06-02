@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0C021818-42E8-4FF4-9E29-4B692C8B8C01}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>OceanShoot</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Main.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.cpp" />
+    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Lib.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.h" />
+    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
