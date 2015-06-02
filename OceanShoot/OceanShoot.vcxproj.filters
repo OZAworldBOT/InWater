@@ -57,103 +57,103 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.cpp">
-      <Filter>Class\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.cpp">
-      <Filter>Class\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.cpp">
-      <Filter>Class\Common\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.cpp">
-      <Filter>Class\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.cpp">
-      <Filter>Class\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.cpp">
-      <Filter>Class\Explosion</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.cpp">
-      <Filter>Class\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.cpp">
-      <Filter>Class\Graphic\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.cpp">
-      <Filter>Class\Graphic\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.cpp">
-      <Filter>Class\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.cpp">
-      <Filter>Class\Shot\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.cpp">
-      <Filter>Class\Shot\Bomb</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.cpp">
-      <Filter>Class\Shot\Razer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Class\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.cpp">
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Class\Shot\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Class\Shot\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Razer.cpp">
+      <Filter>Class\Shot\Razer</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>Class\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Class\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>Class\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Class\Graphic\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Class\Graphic\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Class\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Class\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Class\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Class\Common\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Class\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Class\Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.h">
-      <Filter>Class\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.h">
-      <Filter>Class\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.h">
-      <Filter>Class\Common\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.h">
-      <Filter>Class\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.h">
-      <Filter>Class\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.h">
-      <Filter>Class\Explosion</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.h">
-      <Filter>Class\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.h">
-      <Filter>Class\Graphic\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.h">
-      <Filter>Class\Graphic\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.h">
-      <Filter>Class\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.h">
-      <Filter>Class\Shot\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.h">
-      <Filter>Class\Shot\Bomb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.h">
-      <Filter>Class\Shot\Razer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.h">
+    <ClInclude Include="Player.h">
       <Filter>Class\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.h">
+    <ClInclude Include="Bomb.h">
+      <Filter>Class\Shot\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Class\Shot\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Razer.h">
+      <Filter>Class\Shot\Razer</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <Filter>Class\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Lib.h">
+    <ClInclude Include="Lib.h">
       <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Class\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic.h">
+      <Filter>Class\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Class\Graphic\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Class\Graphic\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Class\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Class\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Class\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Class\Common\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Class\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Class\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

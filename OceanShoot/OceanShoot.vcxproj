@@ -83,40 +83,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Main.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.cpp" />
-    <ClCompile Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Razer.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Application.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bomb.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Bullet.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Camera.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Common.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Debug.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Enemy.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Explosion.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Graphic.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Lib.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Light.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Model.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Player.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Razer.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Stage.h" />
-    <ClInclude Include="..\..\..\Documents\GitHub\Heli_de_PongGung\Heri_de_PonGun\Texture.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Graphic.h" />
+    <ClInclude Include="Lib.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Razer.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
