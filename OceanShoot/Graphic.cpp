@@ -75,7 +75,7 @@ void Graphic::DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3D
 
 	//アルファブレンディングを行う
 	d3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	d3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	d3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 

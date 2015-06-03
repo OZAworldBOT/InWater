@@ -50,6 +50,10 @@ void Enemy::InitEnemy()
 		Scale[i] = D3DXVECTOR3(10, 10, 10);
 		Vitality[i] = 100;
 		enemyDeathFlag[i] = false;
+		Speed[i] = 1;
+		x_Speed[i] = 1;
+		z_Speed[i] = 1;
+		y_Speed[i] = 1;
 	}
 	DebugLog("ìGÇèâä˙âªÇµÇ‹ÇµÇΩÅB\n");
 }
@@ -77,9 +81,46 @@ void Enemy::Move()
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		D3DXVec3Normalize(&Accel[i], &D3DXVECTOR3(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 50));
-		Position[i].x += Accel[i].x * 0.08f;
-		Position[i].z += Accel[i].z * 0.08f;
-		Scale[i] = D3DXVECTOR3(10, 10, 10);
+		Position[i].x += Accel[i].x * 0.06f;
+		Position[i].z += Accel[i].z * 0.06f;
+		Scale[i].x += (0.02 + Accel[i].x * 0.02) * x_Speed[i];
+		Scale[i].z += (0.02 + Accel[i].x * 0.02) * z_Speed[i];
+		Scale[i].y += (0.02 + Accel[i].y * 0.02) * y_Speed[i];
+		if (Scale[i].x > 11)
+		{
+			x_Speed[i] = -1;
+		}
+		if (Scale[i].x < 9)
+		{
+			x_Speed[i] = 1;
+		}
+		if (Scale[i].z > 11)
+		{
+			z_Speed[i] = -1;
+		}
+		if (Scale[i].z < 9)
+		{
+			z_Speed[i] = 1;
+		}
+		if (Scale[i].y > 12)
+		{
+			y_Speed[i] = -1;
+		}
+		if (Scale[i].y < 10)
+		{
+			y_Speed[i] = 1;
+		}
+
+
+		Position[i].y += 0.04 * ( Speed[i] + Accel[i].y);
+		if (Position[i].y > 13)
+		{
+			Speed[i] = -1;
+		}
+		if (Position[i].y < 8)
+		{
+			Speed[i] = 1;
+		}
 	}
 }
 
@@ -105,7 +146,7 @@ void Enemy::Hit()
 		for (int j = 0; j < BULLET_MAX; j++)
 		{
 			Collider[i] = Position[i];
-			Radius[i] = 10.0f;
+			Radius[i] = 15.0f;
 			bullet_Radius[j] = 0.5f;
 
 			if ((Collider[i].x - bulletState[j].x) * (Collider[i].x - bulletState[j].x) +

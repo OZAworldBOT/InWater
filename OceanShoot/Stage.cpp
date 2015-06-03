@@ -18,7 +18,7 @@ Stage::Stage()
 		bubble[i].pos = D3DXVECTOR3(0, 0, 0);
 		bubble[i].exist = TRUE;
 	}
-	water = new Texture("Texture/effect0.png");
+	water = new Texture("Texture/effect2.png");
 	stage = new Graphic();
 
 	initStage();

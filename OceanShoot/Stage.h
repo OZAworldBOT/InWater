@@ -26,9 +26,9 @@ class Stage
 
 private:
 	Texture *water;
-
+		    
 	Graphic *stage;
-
+		    
 	b_point *bubble;
 public:
 

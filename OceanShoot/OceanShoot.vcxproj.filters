@@ -55,6 +55,12 @@
     <Filter Include="Class\Stage">
       <UniqueIdentifier>{89df128f-8c2e-47a7-800d-dfc53d12d415}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Shader">
+      <UniqueIdentifier>{5c74df97-296b-4147-ac4e-474990a14fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Title">
+      <UniqueIdentifier>{89fa2ec4-f530-405d-8b20-450c9a67cf46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -105,6 +111,15 @@
     <ClCompile Include="Application.cpp">
       <Filter>Class\Application</Filter>
     </ClCompile>
+    <ClCompile Include="DropletsFallingShader.cpp">
+      <Filter>Class\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="UPrimitive.cpp">
+      <Filter>Class\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Class\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -154,6 +169,18 @@
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Class\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="DropletsFallingShader.h">
+      <Filter>Class\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="UPrimitive.h">
+      <Filter>Class\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Class\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

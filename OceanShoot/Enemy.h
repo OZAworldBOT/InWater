@@ -39,6 +39,10 @@ class Enemy
 	int			Vitality[ENEMY_MAX];		//	“G‚Ì‘Ì—Í
 	float		Radius[ENEMY_MAX];			//	“G‚Ì”¼Œa
 	bool		enemyDeathFlag[ENEMY_MAX];	//	“G‚ª¶‚«‚Ä‚é‚©‚Ç‚¤‚©
+	int			Speed[ENEMY_MAX];			//	‘¬“x‚Ì§Œä
+	int			x_Speed[ENEMY_MAX];			//	Šg‘å—¦‚Ì§Œä	x
+	int			z_Speed[ENEMY_MAX];			//	Šg‘å—¦‚Ì§Œä	z
+	int			y_Speed[ENEMY_MAX];			//	Šg‘å—¦‚Ì§Œä	y
 
 	//-----------------------------------------------------
 	//	UŒ‚ŠÖ˜A

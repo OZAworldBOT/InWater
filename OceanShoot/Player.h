@@ -149,6 +149,7 @@ public:
 
 	//	•`‰æ‚·‚é
 	void Draw();
+	void View();
 
 	//	‰Šú‰»
 	void InitPlayer();

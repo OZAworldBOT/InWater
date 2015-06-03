@@ -16,7 +16,6 @@ private:
 	bool	win_fullscreen;
 
 	LPDIRECT3D9				direct3d;
-	D3DPRESENT_PARAMETERS	presentParam;
 	LPDIRECTINPUT8			directInput;
 
 public:
@@ -60,5 +59,8 @@ private:
 
 	//DirectInputデバイスの初期化
 	bool InitDinputDevice();
+
+	//	ランタイムモードのチェック
+	int Check();
 };
 

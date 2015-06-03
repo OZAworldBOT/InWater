@@ -206,11 +206,13 @@ void Player::Shot()
 //	描画
 void Player::Draw()
 {
-	camera->View(camera_Pos, camera_Rot);
 	player->DrawModelTexture(Position, Rotation, Scale, *model, *texture);
 }
 
-
+void Player::View()
+{
+	camera->View(camera_Pos, camera_Rot);
+}
 //-----------------------------------------------------------------------------------------------------------
 //	以下プレイヤーの攻撃関連の動作を記述
 //-----------------------------------------------------------------------------------------------------------

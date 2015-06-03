@@ -10,12 +10,13 @@
 //----------------------------------------------------
 //	define定義
 //----------------------------------------------------
-#define BUBBLE_MAX 600			//	泡の最大個数
+#define BUBBLE_MAX 400			//	泡の最大個数
+#define POINT_MAX 100			//	タイトル画面の泡の最大個数
 #define ENEMY_MAX 30			//	敵の最大個数
 #define EXPLOSION_MAX 30		//	爆発の最大個数
 #define BULLET_MAX 30			//	プレイヤーの弾の最大個数
 #define BOMB_MAX 100			//	プレイヤーの爆弾の最大個数
-#define RAZER_MAX 200			//	プレイヤーのレーザーの最大個数
+#define RAZER_MAX 150			//	プレイヤーのレーザーの最大個数
 
 //----------------------------------------------------
 //	インクルードファイル
@@ -37,7 +38,8 @@
 #include "Light.h"
 #include "Camera.h"
 //	Shader
-
+#include "UPrimitive.h"
+#include "DropletsFallingShader.h"
 
 //	Object
 #include "Bullet.h"
