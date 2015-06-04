@@ -65,7 +65,7 @@ void Graphic::DrawModel(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR
 }
 
 // 3Dモデルを描画する
-void Graphic::DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model, Texture &texture)
+void Graphic::DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model, Texture &texture, bool alpha)
 {
 	// ワールド行列の設定
 	TransForm(position, rotation, scale);
@@ -74,7 +74,7 @@ void Graphic::DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3D
 	d3dDevice->SetTexture(0, texture.texture);
 
 	//アルファブレンディングを行う
-	d3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	d3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, alpha);
 	d3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 

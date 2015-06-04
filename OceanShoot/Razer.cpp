@@ -9,7 +9,7 @@
 Razer::Razer()
 {
 	razerPoint = new razer_point[RAZER_MAX];
-	texture = new Texture("Texture/ball.bmp");
+	texture = new Texture("Texture/effect0.png");
 	razer = new Graphic();
 }
 
@@ -29,7 +29,7 @@ void Razer::Draw(D3DXVECTOR3 Pos[])
 		razerPoint[i].pos = Pos[i];
 
 		vertex[i].pos = razerPoint[i].pos;
-		vertex[i].size = 0.7f;
+		vertex[i].size = 1.0f;
 		vertex[i].color = 0xffffffff;
 
 	}

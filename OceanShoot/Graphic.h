@@ -40,7 +40,7 @@ public:
 
 	// 3Dモデルを描画する
 	void DrawModel(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model);
-	void DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model, Texture &texture);
+	void DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model, Texture &texture, bool alpha);
 
 	// ポイントスプライトを描画する
 	void DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture);

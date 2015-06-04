@@ -25,12 +25,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 	//	アプリケーション実行環境を構築
 	unique_ptr<Application> app(new Application("オーシャン・シューッ！！", Rect(0, 0, 800, 600), false, hInst, cmdShow));
 	unique_ptr<Light> light(new Light());
+	unique_ptr<Title> title(new Title());
+	unique_ptr<Stage> stage(new Stage());
 	unique_ptr<Player> player(new Player());
 	unique_ptr<Enemy> enemy(new Enemy());
-	unique_ptr<Stage> stage(new Stage());
-	unique_ptr<Title> title(new Title());
 	gameState = GAME_STATE_TITLE;
-
+	 
 	RECT recDisplay;
 	HWND hDeskWnd;
 	hDeskWnd = GetDesktopWindow();

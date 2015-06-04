@@ -31,9 +31,14 @@ class Title
 	D3DXVECTOR3 Scale;
 	D3DXVECTOR3 camera_Pos;
 	D3DXVECTOR3 camera_Rot;
+	D3DXVECTOR3 tako_Pos;
+	D3DXVECTOR3 tako_Rot;
+	D3DXVECTOR3 tako_Scale;
+	D3DXVECTOR3 tako_Accel;
 	int			Speed1;
 	int			Speed2;
-
+	int			Rand;
+	bool		tako_Flag;
 private:
 	Texture *texture;
 

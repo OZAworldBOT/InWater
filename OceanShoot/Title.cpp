@@ -19,10 +19,13 @@ Title::Title()
 		point[i].pos = D3DXVECTOR3(0, 0, 0);
 		point[i].exist = TRUE;
 	}
-	model = new Model("Model/3dFont.x");
-	texture = new Texture[2];
+	model = new Model[2];
+	model[0].LoadMesh("Model/3dFont.x");
+	model[1].LoadMesh("Model/tako.x");
+	texture = new Texture[3];
 	texture[0].LoadTexture("Texture/effect2.png");
 	texture[1].LoadTexture("Texture/gold_block.png");
+	texture[2].LoadTexture("Texture/enemy2.png");
 	graphic = new Graphic();
 	camera = new Camera();
 
@@ -46,6 +49,7 @@ void Title::Init()
 	camera_Rot = D3DXVECTOR3(D3DXToRadian(-15), 0, 0);
 	Speed1 = 1;
 	Speed2 = 1;
+	Rand = 0;
 
 	D3DXVECTOR3 range = MaxRange - MinRange;
 
@@ -53,6 +57,7 @@ void Title::Init()
 	{
 		point[i].pos.x = (float)((double)rand() / RAND_MAX * range.x) + MinRange.x;
 		point[i].pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
+		point[i].pos.y = rand() % 50;
 	}
 }
 
@@ -60,9 +65,11 @@ void Title::Release()
 {
 	delete graphic;
 	delete[] texture;
-	delete model;
+	delete[] model;
 	delete[] point;
 	delete camera;
+
+	DebugLog("タイトル画面を破棄しました。\n");
 }
 
 void Title::View()
@@ -74,6 +81,9 @@ void Title::View()
 	D3DXVECTOR3 range = MaxRange - MinRange;
 	srand((unsigned int)time(NULL));
 
+	//-----------------------------------------------------------------
+	//	泡
+	//-----------------------------------------------------------------
 	for (int i = 0; i < POINT_MAX; i++)
 	{
 
@@ -94,18 +104,46 @@ void Title::View()
 			point[i].pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
 			point[i].pos.y = 0;
 		}
-
 	}
 	graphic->DrawString({ 0, 0, 800, 900 }, "PUSH ENTER");
 	graphic->DrawPointSprite_A(vertex, POINT_MAX, texture[0], false);
-
 	delete[] vertex;
+
+	//-----------------------------------------------------------------
+	//	たこ
+	//-----------------------------------------------------------------
+	if (tako_Flag == false)
+	{
+		Rand = rand() % 100;
+		if (Rand == 2 || Rand == 51 || Rand == 89)
+		{
+			tako_Scale = D3DXVECTOR3(2, 2, 2);
+			tako_Pos.x = (float)((double)rand() / RAND_MAX * range.x) + MinRange.x;
+			tako_Pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
+			tako_Pos.y = 0;
+			tako_Flag = false;
+			tako_Flag = true;
+		}
+	}
+	if (tako_Flag == true)
+	{
+		D3DXVec3Normalize(&tako_Accel, &D3DXVECTOR3(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 50));
+		tako_Pos.x += (tako_Accel.x * 0.1f);
+		tako_Pos.z += (tako_Accel.z * 0.1f);
+		tako_Pos.y += rand() % 100 * 0.008f;
+		graphic->DrawModelTexture(tako_Pos, tako_Rot, tako_Scale, model[1], texture[2], true);
+	}
+	if (tako_Pos.y > 200)
+	{
+		tako_Flag = false;
+	}
+
 }
 
 void Title::Move()
 {
 	Scale.x += 0.02 * Speed1;
-	Scale.y -= 0.05 * Speed2;
+	Scale.y += 0.05 * Speed2;
 	if (Scale.x > 32)
 	{
 		Speed1 = -1;
@@ -118,13 +156,13 @@ void Title::Move()
 
 	if (Scale.y > 35)
 	{
-		Speed2 = 1;
+		Speed2 = -1;
 	}
 	if (Scale.y < 30)
 	{
-		Speed2 = -1;
+		Speed2 = 1;
 	}
 
-	graphic->DrawModelTexture(Pos, Rot, Scale, *model, texture[1]);
+	graphic->DrawModelTexture(Pos, Rot, Scale, model[0], texture[1], true);
 	camera->View(camera_Pos, camera_Rot);
 }

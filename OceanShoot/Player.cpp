@@ -23,17 +23,17 @@ Player::Player()
 	player = new Graphic();
 
 	model = new Model("Model/Heli.x");
-	texture = new Texture("Texture/enemy2.png");
+	texture = new Texture("Texture/enemy1.png");
 
 	bullet = new Bullet();
 	bomb = new Bomb();
 	razer = new Razer();
 	explosion = new Explosion();
 
-	pBullet = new Pbullet[BULLET_MAX];
-	pBomb = new Pbomb[BOMB_MAX];
-	pRazer = new Prazer[RAZER_MAX];
-	pExp = new Pexplosion[EXPLOSION_MAX];
+	pBullet = new Pbullet;
+	pBomb = new Pbomb;
+	pRazer = new Prazer;
+	pExp = new Pexplosion;
 
 	DebugLog("プレイヤーを生成しました。\n");
 
@@ -124,10 +124,10 @@ void Player::Release()
 	delete bomb;
 	delete razer;
 	delete explosion;
-	delete[] pBullet;
-	delete[] pBomb;
-	delete[] pRazer;
-	delete[] pExp;
+	delete pBullet;
+	delete pBomb;
+	delete pRazer;
+	delete pExp;
 
 	DebugLog("プレイヤーを破棄しました。\n");
 }
@@ -206,7 +206,7 @@ void Player::Shot()
 //	描画
 void Player::Draw()
 {
-	player->DrawModelTexture(Position, Rotation, Scale, *model, *texture);
+	player->DrawModelTexture(Position, Rotation, Scale, *model, *texture, false);
 }
 
 void Player::View()
@@ -322,14 +322,14 @@ void Player::BombShot()
 			if (pBomb->Pos.y < 0)
 			{
 				pBomb->Explosion_Exist[i] = true;
+				pBomb->Explosion_Pos[i] = pBomb->oldPos;
+				pBomb->MinRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x - 10, -10, pBomb->Explosion_Pos[i].z - 10);
+				pBomb->MaxRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x + 10, 10, pBomb->Explosion_Pos[i].z + 10);
 			}
 			if (pBomb->Explosion_Exist[i] == true)
 			{
 				pBomb->Explosion_Death[i] = false;
 				pBomb->Explosion_Count[i]++;
-				pBomb->Explosion_Pos[i] = pBomb->oldPos;
-				pBomb->MinRange = D3DXVECTOR3(pBomb->Pos.x, -10, pBomb->Pos.z);
-				pBomb->MaxRange = D3DXVECTOR3(pBomb->Pos.x, 10, pBomb->Pos.z);
 				D3DXVECTOR3 range = pBomb->MaxRange - pBomb->MinRange;
 				pBomb->Explosion_Pos[i].x = (float)((double)rand() / RAND_MAX * range.x) + pBomb->MinRange.x;
 				pBomb->Explosion_Pos[i].z = (float)((double)rand() / RAND_MAX * range.z) + pBomb->MinRange.z;
@@ -503,29 +503,7 @@ void Player::Hit()
 //	爆発
 void Player::CreateExp(D3DXVECTOR3 Pos[], int Num)
 {
-	srand((unsigned int)time(NULL));
-
-	for (int i = 0; i < Num; i++)
-	{
-		pExp->Pos[i] = Pos[i];
-		pExp->Count[i]++;
-		if (pExp->Count[i] < 30)
-		{
-			timeCount += 0.5f;
-			D3DXVec3Normalize(&pExp->Accel[i], &D3DXVECTOR3(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 40));
-			pExp->Pos[i].y += pExp->Accel[i].y * 1.5f;
-			pExp->Pos[i].x += pExp->Accel[i].x * 1.5f;
-			pExp->Pos[i].z += pExp->Accel[i].z * 1.5f;
-			explosion->Draw(&pExp->Pos[i]);
-		}
-		if (pExp->Count[i] > 30)
-		{
-			pExp->Exist[i] = false;
-			pExp->Count[i] = 0;
-			timeCount = 0;
-		}
-
-	}
+	
 }
 
 
