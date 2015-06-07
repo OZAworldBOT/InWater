@@ -126,7 +126,7 @@ bool Application::Loop()
 	}
 
 	//画面のクリア
-	if (FAILED(d3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 102, 204), 1.0f, 0)))
+	if (FAILED(d3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 60, 160), 1.0f, 0)))
 		return false;
 
 	//今のフレームの描画を開始する

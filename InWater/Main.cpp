@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 
 
 	//	アプリケーション実行環境を構築
-	unique_ptr<Application> app(new Application("オーシャン・シューッ！！", Rect(0, 0, 800, 600), false, hInst, cmdShow));
+	unique_ptr<Application> app(new Application("水の中にいる", Rect(0, 0, 800, 600), false, hInst, cmdShow));
 	unique_ptr<Light> light(new Light());
 	unique_ptr<Title> title(new Title());
 	unique_ptr<Stage> stage(new Stage());

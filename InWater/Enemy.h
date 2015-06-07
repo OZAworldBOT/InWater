@@ -42,6 +42,7 @@ class Enemy
 		int			Vitality[ENEMY_MAX];		//	敵の体力
 		float		Radius[ENEMY_MAX];			//	敵の半径
 		bool		enemyDeathFlag[ENEMY_MAX];	//	敵が生きてるかどうか
+		bool		enemyHitFlag[ENEMY_MAX];	//	敵に当たった
 		int			Speed[ENEMY_MAX];			//	速度の制御
 		int			x_Speed[ENEMY_MAX];			//	拡大率の制御	x
 		int			z_Speed[ENEMY_MAX];			//	拡大率の制御	z
@@ -62,8 +63,8 @@ class Enemy
 		D3DXVECTOR3 Rot[EXPLOSION_MAX];					//	爆発の傾き
 		D3DXVECTOR3 Accel[EXPLOSION_MAX];				//	爆発の初速
 		D3DXVECTOR3 oldPos[EXPLOSION_MAX];				//	前フレームの爆発の座標
-		D3DXVECTOR3 MinRange[EXPLOSION_MAX];			//	爆発の最小範囲
-		D3DXVECTOR3 MaxRange[EXPLOSION_MAX];			//	爆発の最大範囲
+		D3DXVECTOR3 MinRange;							//	爆発の最小範囲
+		D3DXVECTOR3 MaxRange;							//	爆発の最大範囲
 		int			Count[EXPLOSION_MAX];				//	爆発の生存時間
 		bool		Exist[EXPLOSION_MAX];				//	爆発が生きてるかどうか
 		bool		death[EXPLOSION_MAX];				

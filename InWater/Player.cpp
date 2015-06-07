@@ -338,9 +338,9 @@ void Player::BombShot()
 				if (pBomb->Explosion_Count[i] < 30)
 				{
 					D3DXVec3Normalize(&pBomb->Explosion_Accel[i], &D3DXVECTOR3(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 40));
-					pBomb->Explosion_Pos[i].x += pBomb->Explosion_Accel[i].x * 50.0f;
+					pBomb->Explosion_Pos[i].x += (pBomb->Explosion_Accel[i].x + i * 0.005f) * 50.0f;
 					pBomb->Explosion_Pos[i].y += rand() % 10 * 0.0008f;
-					pBomb->Explosion_Pos[i].z += pBomb->Explosion_Accel[i].z * 50.0f;
+					pBomb->Explosion_Pos[i].z += (pBomb->Explosion_Accel[i].z + i * 0.005f) * 50.0f;
 					bomb->Draw(&pBomb->Explosion_Pos[i], pBomb->Explosion_Size, pBomb->Explosion_Alpha);
 					Hit();
 				}

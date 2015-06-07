@@ -44,7 +44,7 @@ void Title::Init()
 	MaxRange = D3DXVECTOR3(70, 10, 300);
 	Pos = D3DXVECTOR3(0, 0.8, 2);
 	Rot = D3DXVECTOR3(-0.1, D3DXToRadian(180), 0);
-	Scale = D3DXVECTOR3(30, 30, 30);
+	Scale = D3DXVECTOR3(40, 40, 40);
 	camera_Pos = D3DXVECTOR3(0, 0, 0);
 	camera_Rot = D3DXVECTOR3(D3DXToRadian(-15), 0, 0);
 	Speed1 = 1;
@@ -143,21 +143,21 @@ void Title::Move()
 {
 	Scale.x += 0.02 * Speed1;
 	Scale.y += 0.05 * Speed2;
-	if (Scale.x > 32)
+	if (Scale.x > 42)
 	{
 		Speed1 = -1;
 	}
 
-	if (Scale.x < 30)
+	if (Scale.x < 40)
 	{
 		Speed1 = 1;
 	}
 
-	if (Scale.y > 35)
+	if (Scale.y > 45)
 	{
 		Speed2 = -1;
 	}
-	if (Scale.y < 30)
+	if (Scale.y < 40)
 	{
 		Speed2 = 1;
 	}
