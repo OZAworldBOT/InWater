@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 	unique_ptr<Player> player(new Player());
 	unique_ptr<Enemy> enemy(new Enemy());
 	gameState = GAME_STATE_TITLE;
-	 
+
 	RECT recDisplay;
 	HWND hDeskWnd;
 	hDeskWnd = GetDesktopWindow();
@@ -44,20 +44,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 		switch (gameState)
 		{
 		case GAME_STATE_TITLE:
-			
-			if (!GetAsyncKeyState(VK_RETURN))
+			if (GetAsyncKeyState(VK_RETURN))
 			{
+				title->Release();
+				gameState = GAME_STATE_MAIN;
+			}
+			else
+			{ 
 				title->View();
 				title->Move();
 				if (GetAsyncKeyState(VK_ESCAPE))
 				{
 					title->Release();
 				}
-			}
-			else
-			{ 
-				title->Release();
-				gameState = GAME_STATE_MAIN;
 			}
 			break;
 			
@@ -68,6 +67,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 			player->Move();
 			player->View();
 			player->Draw();
+			player->Destroy();
 
 			//-----------------------
 			//	敵
@@ -75,15 +75,20 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 			enemy->Draw();
 			enemy->Move();
 			enemy->Hit();
-
+			
 			//-----------------------
 			//	ステージ
 			//-----------------------
 			stage->View();
 
 			player->Shot();
+			enemy->Shot();
 
-
+			extern bool playerDeath;
+			if (playerDeath == true)
+			{
+				gameState = GAME_STATE_FAILED;
+			}
 
 			break;
 		case GAME_STATE_CLEAR:

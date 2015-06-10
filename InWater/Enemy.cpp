@@ -11,23 +11,22 @@
 
 extern LPDIRECT3DDEVICE9 d3dDevice;
 D3DXVECTOR3 enemy_Collider[ENEMY_MAX];
+D3DXVECTOR3 enemyBulletPos[ENEMY_MAX];
 
 //	コンストラクタ
 Enemy::Enemy()
 {
 	enemy = new Graphic[ENEMY_MAX];
-	State = new EnemyState;
 	model = new Model("Model/tako.x");
 	texture = new Texture("Texture/gold_block.png");
-	bullet = new Bullet();
-	explosion = new Explosion();
-	eExp = new Eexplosion;
+	State = new EnemyState;
+	bullet = new Bullet("Texture/r_ball.bmp", 1);
+	Attack = new EnemyAttack[ENEMY_MAX];
 
 	DebugLog("敵を生成しました。\n");
 
 	InitEnemy();
 	InitBullet();
-	InitExplosion();
 }
 
 //	デストラクタ
@@ -52,9 +51,11 @@ void Enemy::InitEnemy()
 		State->Position[i].z = (float)((double)rand() / RAND_MAX * range.z) + State->MinRange.z;
 		State->Rotation[i] = D3DXVECTOR3(0, 0, 0);
 		State->Scale[i] = D3DXVECTOR3(10, 10, 10);
-		State->Vitality[i] = 100;
+		State->Vitality[i] = 200;
+		State->enemyDeathCount = 0;
 		State->enemyDeathFlag[i] = false;
 		State->enemyHitFlag[i] = false;
+		State->enemyBulletFlag = false;
 		State->Speed[i] = 1;
 		State->x_Speed[i] = 1;
 		State->z_Speed[i] = 1;
@@ -66,16 +67,13 @@ void Enemy::InitEnemy()
 //	敵の弾の初期化
 void Enemy::InitBullet()
 {
-}
-
-//	爆発の初期化
-void Enemy::InitExplosion()
-{
-	for (int i = 0; i < EXPLOSION_MAX; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
-		eExp->Exist[i] = false;
-		eExp->Count[i] = 0;
-		eExp->death[i] = true;
+		Attack[i].Frame = 0;
+		Attack[i].Count = 0;
+		Attack[i].Exist = false;
+		Attack[i].flag = false;
+		Attack[i].death = true;
 	}
 }
 
@@ -87,8 +85,7 @@ void Enemy::Release()
 	delete model;
 	delete texture;
 	delete bullet;
-	delete explosion;
-	delete eExp;
+	delete[] Attack;
 
 	DebugLog("敵を破棄しました。\n");
 }
@@ -140,13 +137,55 @@ void Enemy::Move()
 		{
 			State->Speed[i] = 1;
 		}
+		State->oldEnemyPos[i] = State->Position[i];
 	}
+
 }
+
 
 //	敵の攻撃
 void Enemy::Shot()
 {
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
 
+		Attack[i].Frame++;
+		if (Attack[i].Frame % 150 == 0 && Attack[i].flag == false)
+		{
+			srand((unsigned int)time(NULL));
+			Attack[i].Pos = State->oldEnemyPos[i];
+			Attack[i].Exist = true;
+		}
+	}
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		if (Attack[i].Exist == true && State->enemyHitFlag[i] == false && State->enemyDeathFlag[i] == false)
+		{
+			Attack[i].Count++;
+			if (Attack[i].Count < 50 && State->enemyDeathFlag[i] == false)
+			{
+				Attack[i].flag = true;
+				Attack[i].death = false;
+				Attack[i].Accel = D3DXVECTOR3(rand() % 3 - 1, rand() % 3 - 1, rand() % 3 - 1);
+				Attack[i].Pos.x += 1.5f * (1 + i) * Attack[i].Accel.x;
+				Attack[i].Pos.z += 1.5f * (1 + i) * Attack[i].Accel.z;
+				Attack[i].Pos.y += 0.5f * (1 + i) * Attack[i].Accel.y;
+
+				if (Attack[i].death == false)
+				{
+					bullet->Draw(&Attack[i].Pos, 10.0f, 1);
+				}
+			}
+			if (Attack[i].Count > 50)
+			{
+				Attack[i].flag = false;
+				Attack[i].death = true;
+				Attack[i].Exist = false;
+				Attack[i].Count = 0;
+			}
+		}
+		enemyBulletPos[i] = Attack[i].Pos;
+	}
 }
 
 //	当たり判定
@@ -176,15 +215,21 @@ void Enemy::Hit()
 				State->Vitality[i] -= 1;
 				State->enemyHitFlag[i] = true;
 				DestroyEnemy();
+				if (State->Vitality[i] == 0)
+				{
+					State->enemyDeathCount += 1;
+					DebugLog("たこ：いたい～っ\n");
+				}
 			}
 		}
-		if (State->Vitality[i] < 0)
+		if (State->Vitality[i] <= 0)
 		{
+			State->Vitality[i] = -2;
 			State->Scale[i].x -= 0.1f;
 			State->Scale[i].z -= 0.1f;
 			State->oldEnemyPos[i] = State->Position[i];
 			State->Position[i].y += 0.3f;
-			if (State->Scale[i].x < 0 && State->Position[i].y > 30)
+			if (State->Scale[i].x < 0)
 			{
 				State->enemyDeathFlag[i] = true;
 			}
@@ -207,18 +252,24 @@ void Enemy::Hit()
 				(State->Collider[i].z - bombState[j].z) * (State->Collider[i].z - bombState[j].z) <=
 				(bomb_Radius[j] + State->Radius[i]) * (bomb_Radius[j] + State->Radius[i]))
 			{
-				State->Vitality[i] -= 2;
+				State->Vitality[i] -= 3;
 				State->enemyHitFlag[i] = true;
 				DestroyEnemy();
+				if (State->Vitality[i] == 0)
+				{
+					State->enemyDeathCount += 1;
+					DebugLog("たこ：いたい～っ\n");
+				}
 			}
 		}
-		if (State->Vitality[i] < 0)
+		if (State->Vitality[i] <= 0)
 		{
+			State->Vitality[i] = -2;
 			State->Scale[i].x -= 0.1f;
 			State->Scale[i].z -= 0.1f;
 			State->oldEnemyPos[i] = State->Position[i];
 			State->Position[i].y += 0.3f;
-			if (State->Scale[i].x < 0 && State->Position[i].y > 30)
+			if (State->Scale[i].x < 0)
 			{
 				State->enemyDeathFlag[i] = true;
 			}
@@ -241,18 +292,24 @@ void Enemy::Hit()
 				(State->Collider[i].z - razerState[j].z) * (State->Collider[i].z - razerState[j].z) <=
 				(razer_Radius[j] + State->Radius[i]) * (razer_Radius[j] + State->Radius[i]))
 			{
-				State->Vitality[i] -= 1;
+				State->Vitality[i] -= 4;
 				State->enemyHitFlag[i] = true;
 				DestroyEnemy();
+				if (State->Vitality[i] == 0)
+				{
+					State->enemyDeathCount += 1;
+					DebugLog("たこ：いたい～っ\n");
+				}
 			}
 		}
-		if (State->Vitality[i] < 0)
+		if (State->Vitality[i] <= 0)
 		{
+			State->Vitality[i] = -2;
 			State->Scale[i].x -= 0.1f;
 			State->Scale[i].z -= 0.1f;
 			State->oldEnemyPos[i] = State->Position[i];
 			State->Position[i].y += 0.3f;
-			if (State->Scale[i].x < 0 && State->Position[i].y > 30)
+			if (State->Scale[i].x < 0)
 			{
 				State->enemyDeathFlag[i] = true;
 			}
@@ -271,6 +328,15 @@ void Enemy::Draw()
 			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
 		}
 	}
+	if (State->enemyDeathCount >= ENEMY_MAX)
+	{
+		InitEnemy();
+		for (int i = 0; i < ENEMY_MAX; i++)
+		{
+			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
+		}
+	}
+
 }
 
 void Enemy::DestroyEnemy()

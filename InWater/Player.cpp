@@ -15,17 +15,24 @@ D3DXVECTOR3 inputState;					//	プレイヤーの座標を取得
 D3DXVECTOR3 bulletState[BULLET_MAX];	//	プレイヤーの弾の座標を取得
 D3DXVECTOR3 bombState[BOMB_MAX];		//	プレイヤーの爆弾の座標を取得
 D3DXVECTOR3 razerState[RAZER_MAX];		//	プレイヤーのレーザーの座標を取得
+bool		playerDeath;				//	自機の消滅
+
 
 //	コンストラクタ
 Player::Player()
 {
 	camera = new Camera();
 	player = new Graphic();
+	HpBar = new Graphic();
 
-	model = new Model("Model/Heli.x");
-	texture = new Texture("Texture/enemy1.png");
+	model = new Model[2];
+	model[0].LoadMesh("Model/heli.x");
+	model[1].LoadMesh("Model/HpBar.x");
+	texture = new Texture[2];
+	texture[0].LoadTexture("Texture/enemy1.png");
+	texture[1].LoadTexture("Texture/diamond_block.png");
 
-	bullet = new Bullet();
+	bullet = new Bullet("Texture/ball.bmp", BULLET_MAX);
 	bomb = new Bomb();
 	razer = new Razer();
 	explosion = new Explosion();
@@ -33,7 +40,7 @@ Player::Player()
 	pBullet = new Pbullet;
 	pBomb = new Pbomb;
 	pRazer = new Prazer;
-	pExp = new Pexplosion;
+	hp = new HitPoint;
 
 	DebugLog("プレイヤーを生成しました。\n");
 
@@ -41,7 +48,7 @@ Player::Player()
 	InitBullet();
 	InitBomb();
 	InitRazer();
-	InitExplosion();
+	InitHpBar();
 }
 
 //	デストラクタ
@@ -53,9 +60,16 @@ Player::~Player()
 //	初期化
 void Player::InitPlayer()
 {
-	Position = D3DXVECTOR3(1000, 10, 1000);
+	Position = D3DXVECTOR3(1000, 8, 1000);
 	Rotation = D3DXVECTOR3(0, D3DXToRadian(90), 0);
-	Scale = D3DXVECTOR3(0.05, 0.05, 0.05);
+	Scale = D3DXVECTOR3(25, 25, 25);
+	playerHitFlag = false;
+	playerDeath = false;
+	Count = 0;
+	x_Speed = 1;
+	y_Speed = 1;
+	z_Speed = 1;
+	Vitality = 400;
 
 	camera_Pos = D3DXVECTOR3(0, 15, -10);
 	camera_Rot = D3DXVECTOR3(D3DXToRadian(10), 0, 0);
@@ -103,14 +117,13 @@ void Player::InitRazer()
 	}
 }
 
-void Player::InitExplosion()
+void Player::InitHpBar()
 {
-	for (int i = 0; i < EXPLOSION_MAX; i++)
-	{
-		pExp->Exist[i] = false;
-		pExp->flag = false;
-		pExp->Count[i] = 0;
-	}
+	hp->Pos = D3DXVECTOR3(997, 17, 1000);
+	hp->Rot = D3DXVECTOR3(0, -0.1, 0);
+	hp->Scale = D3DXVECTOR3(40, 40, 40);
+	hp->y_Speed = 1;
+	hp->z_Speed = 1;
 }
 
 //	解放処理
@@ -118,8 +131,8 @@ void Player::Release()
 {
 	delete camera;
 	delete player;
-	delete model;
-	delete texture;
+	delete[] model;
+	delete[] texture;
 	delete bullet;
 	delete bomb;
 	delete razer;
@@ -127,7 +140,8 @@ void Player::Release()
 	delete pBullet;
 	delete pBomb;
 	delete pRazer;
-	delete pExp;
+	delete HpBar;
+	delete hp;
 
 	DebugLog("プレイヤーを破棄しました。\n");
 }
@@ -189,6 +203,10 @@ void Player::Move()
 
 	camera_Rot.y += dims.lX * 0.005f;
 	Rotation.y = camera_Rot.y + D3DXToRadian(0);
+	hp->Pos.x = Position.x - 3 * cosf(cameraAngle);
+	hp->Pos.y = Position.y + 9;
+	hp->Pos.z = Position.z + 3 * sinf(cameraAngle);
+	hp->Rot.y = Rotation.y + D3DXToRadian(-20);
 	oldPlayerRot.y = Rotation.y;
 	oldCameraRot.x = camera_Rot.x;
 
@@ -206,7 +224,8 @@ void Player::Shot()
 //	描画
 void Player::Draw()
 {
-	player->DrawModelTexture(Position, Rotation, Scale, *model, *texture, false);
+	player->DrawModelTexture(Position, Rotation, Scale, model[0], texture[0], true);
+	HpBar->DrawModelTexture(hp->Pos, hp->Rot, hp->Scale, model[1], texture[1], true);
 }
 
 void Player::View()
@@ -257,7 +276,7 @@ void Player::BulletShot()
 
 				if (pBullet->death[i] == false)
 				{
-					bullet->Draw(&pBullet->Pos[i]);
+					bullet->Draw(&pBullet->Pos[i], 0.7f, BULLET_MAX);
 				}
 
 				Hit();
@@ -452,6 +471,7 @@ void Player::Hit()
 				(enemy_Collider[i].z - pBullet->Pos[j].z) * (enemy_Collider[i].z - pBullet->Pos[j].z) <=
 				(pBullet->Radius[j] + enemy_Radius[i]) * (pBullet->Radius[j] + enemy_Radius[i]))
 			{
+				pBullet->Pos[i].y = 1000.0f; 
 				pBullet->death[j] = true;
 			}
 
@@ -494,6 +514,7 @@ void Player::Hit()
 				(enemy_Collider[i].z - pRazer->Pos[j].z) * (enemy_Collider[i].z - pRazer->Pos[j].z) <=
 				(pRazer->Radius[j] + enemy_Radius[i]) * (pRazer->Radius[j] + enemy_Radius[i]))
 			{
+				pRazer->Pos[i].y = 1000.0f;
 				pRazer->death[j] = true;
 			}
 
@@ -502,11 +523,77 @@ void Player::Hit()
 
 }
 
-//	爆発
-void Player::CreateExp(D3DXVECTOR3 Pos[], int Num)
+void Player::Destroy()
 {
-	
+	extern D3DXVECTOR3 enemyBulletPos[ENEMY_MAX];
+
+	//----------------------------------------------------------------
+	//	敵の弾との当たり判定
+	//----------------------------------------------------------------
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		player_Radius = 15.0f;
+		enemyBullet_Radius[i] = 10.0f;
+		if ((enemyBulletPos[i].x - inputState.x) * (enemyBulletPos[i].x - inputState.x) +
+			(enemyBulletPos[i].y - inputState.y) * (enemyBulletPos[i].y - inputState.y) +
+			(enemyBulletPos[i].z - inputState.z) * (enemyBulletPos[i].z - inputState.z) <=
+			(player_Radius + enemy_Radius[i]) * (player_Radius + enemy_Radius[i]))
+		{
+			DebugLog("Hit\n");
+			playerHitFlag = true;
+			Vitality -= 4;
+			hp->Scale.x -= 0.4;
+			hp->Scale.z -= 0.4;
+		}
+		if (Vitality < 0)
+		{
+			playerDeath = true;
+		}
+	}
+	if (playerHitFlag == true)
+	{
+		Count++;
+
+		//-------------------------------------------
+		//	プレイヤーの拡大率
+		//-------------------------------------------
+		D3DXVec3Normalize(&Accel, &D3DXVECTOR3(rand() % 10, rand() % 10, rand() % 10));
+		Scale.x += Accel.x * 0.5f * x_Speed;
+		Scale.y += Accel.y * 0.5f * y_Speed;
+		Scale.z += Accel.z * 0.5f * z_Speed;
+		
+		if (Scale.x > 27)
+		{
+			x_Speed = -1;
+		}
+		if (Scale.y > 27)
+		{
+			y_Speed = -1;
+		}
+		if (Scale.z > 27)
+		{
+			z_Speed = -1;
+		}
+
+		if (Scale.x < 23)
+		{
+			x_Speed = 1;
+		}
+		if (Scale.y < 23)
+		{
+			y_Speed = 1;
+		}
+		if (Scale.z < 23)
+		{
+			z_Speed = 1;
+		}
+
+	}
+	if (Count > 20)
+	{
+		Count = 0;
+		Scale = D3DXVECTOR3(25, 25, 25);
+		playerHitFlag = false;
+	}
 }
-
-
 

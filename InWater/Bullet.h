@@ -26,11 +26,11 @@ private:
 public:
 
 	//	デフォルトコンストラクタ
-	Bullet();
+	Bullet(const TCHAR *FileName, int Num);
 
 	//	デストラクタ
 	~Bullet();
 
 	//	描画する
-	void Draw(D3DXVECTOR3 Pos[]);
+	void Draw(D3DXVECTOR3 Pos[], float Size, int Num);
 };

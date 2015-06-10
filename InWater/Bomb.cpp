@@ -33,7 +33,7 @@ void Bomb::Draw(D3DXVECTOR3 Pos[], float Size, bool Alpha)
 		vertex[i].color = 0xffffffff;
 
 	}
-
 	bomb->DrawPointSprite_A(vertex, BOMB_MAX, *texture, Alpha);
+
 	delete[] vertex;
 }

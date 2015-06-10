@@ -48,6 +48,7 @@ void Stage::initStage()
 	{
 		bubble[i].pos.x = (float)((double)rand() / RAND_MAX * range.x) + MinRange.x;
 		bubble[i].pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
+		bubble[i].pos.y = rand() % 100;
 	}
 }
 

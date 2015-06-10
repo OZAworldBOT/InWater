@@ -57,7 +57,7 @@ void Title::Init()
 	{
 		point[i].pos.x = (float)((double)rand() / RAND_MAX * range.x) + MinRange.x;
 		point[i].pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
-		point[i].pos.y = rand() % 50;
+		point[i].pos.y = rand() % 100;
 	}
 }
 

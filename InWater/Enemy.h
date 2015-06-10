@@ -10,7 +10,6 @@ class Texture;
 class Model;
 class Graphic;
 class Bullet;
-class Explosion;
 
 //粒子のデーター
 struct e_point
@@ -40,36 +39,41 @@ class Enemy
 		D3DXVECTOR3 MaxRange;					//	敵出現の最大範囲
 		D3DXVECTOR3 MinRange;					//	敵出現の最小範囲
 		int			Vitality[ENEMY_MAX];		//	敵の体力
+		int			enemyDeathCount;			//	敵に攻撃が当たった回数
 		float		Radius[ENEMY_MAX];			//	敵の半径
 		bool		enemyDeathFlag[ENEMY_MAX];	//	敵が生きてるかどうか
 		bool		enemyHitFlag[ENEMY_MAX];	//	敵に当たった
+		bool		enemyBulletFlag;			//	敵に当たった
+		bool		enemyCountFlag[ENEMY_MAX];	//	敵が生きている数を調べる
 		int			Speed[ENEMY_MAX];			//	速度の制御
 		int			x_Speed[ENEMY_MAX];			//	拡大率の制御	x
 		int			z_Speed[ENEMY_MAX];			//	拡大率の制御	z
 		int			y_Speed[ENEMY_MAX];			//	拡大率の制御	y
+		int			Count;						//	敵の数
 	};
 	//-----------------------------------------------------
 	//	攻撃関連
 	//-----------------------------------------------------
+	struct EnemyAttack
+	{
+		D3DXVECTOR3 Pos;			//	弾の座標
+		D3DXVECTOR3 Rot;			//	弾の傾き
+		D3DXVECTOR3 Accel;			//	弾の初速
+		D3DXVECTOR3 oldPos;			//	前フレームの弾の座標
+		int			Frame;			//	経過フレーム
+		int			Count;			//	弾の生存時間
+		bool		Exist;			//	弾が生きてるかどうか
+		bool		flag;			//	弾の制御フラグ
+		bool		death;			//	弾が敵に当たった
+		float		Radiu;			//	弾の半径
+	};
+
+	//-----------------------------------------------------
+	//	当たり判定関連
+	//-----------------------------------------------------
 	float		bullet_Radius[BULLET_MAX];		//	弾丸の半径
 	float		razer_Radius[RAZER_MAX];		//	レーザーの半径
 	float		bomb_Radius[BOMB_MAX];			//	爆弾の半径
-	//-----------------------------------------------------
-	//	爆発関連
-	//-----------------------------------------------------
-	struct Eexplosion
-	{
-		D3DXVECTOR3 Pos[EXPLOSION_MAX];					//	爆発の座標
-		D3DXVECTOR3 Rot[EXPLOSION_MAX];					//	爆発の傾き
-		D3DXVECTOR3 Accel[EXPLOSION_MAX];				//	爆発の初速
-		D3DXVECTOR3 oldPos[EXPLOSION_MAX];				//	前フレームの爆発の座標
-		D3DXVECTOR3 MinRange;							//	爆発の最小範囲
-		D3DXVECTOR3 MaxRange;							//	爆発の最大範囲
-		int			Count[EXPLOSION_MAX];				//	爆発の生存時間
-		bool		Exist[EXPLOSION_MAX];				//	爆発が生きてるかどうか
-		bool		death[EXPLOSION_MAX];				
-		bool		Flag;								//	制御フラグ
-	};
 
 
 private:
@@ -82,8 +86,7 @@ private:
 	Texture *texture;
 	Bullet *bullet;
 	EnemyState *State;
-	Explosion *explosion;
-	Eexplosion *eExp;
+	EnemyAttack *Attack;
 
 public:
 
@@ -102,7 +105,6 @@ public:
 	//	初期化
 	void InitEnemy();
 	void InitBullet();
-	void InitExplosion();
 
 	//	攻撃
 	void Shot();
@@ -116,11 +118,3 @@ public:
 	//	解放
 	void Release();
 };
-
-
-
-
-
-
-
-

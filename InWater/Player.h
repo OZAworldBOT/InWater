@@ -13,7 +13,6 @@ class Graphic;
 class BUllet;
 class Bomb;
 class Razer;
-class Explosion;
 
 //粒子のデーター
 struct p_point
@@ -33,13 +32,32 @@ class Player
 	//-----------------------------------------------------
 	//	Xファイル
 	Graphic		*player;
-	D3DXVECTOR3 Position;						//	プレイヤーの座標
-	D3DXVECTOR3 Rotation;						//	プレイヤーの傾き
-	D3DXVECTOR3 Scale;							//	プレイヤーの拡大率
-	D3DXVECTOR3 oldPlayerPos;					//	前フレームのプレイヤーの座標
-	D3DXVECTOR3 oldPlayerRot;					//	前フレームのプレイヤーの傾き
-	float		enemy_Radius[ENEMY_MAX];		//	敵の半径
+	Graphic		*HpBar;
+	D3DXVECTOR3 Position;											//	プレイヤーの座標
+	D3DXVECTOR3 Rotation;											//	プレイヤーの傾き
+	D3DXVECTOR3 Accel;												//	プレイヤーの初速
+	D3DXVECTOR3 Scale;												//	プレイヤーの拡大率
+	D3DXVECTOR3 oldPlayerPos;										//	前フレームのプレイヤーの座標
+	D3DXVECTOR3 oldPlayerRot;										//	前フレームのプレイヤーの傾き
+	int			Count;												//	制御カウンター
+	int			Vitality;											//	プレイヤーの体力
+	float		player_Radius;										//	プレイヤーの半径
+	float		enemy_Radius[ENEMY_MAX];							//	敵の半径
+	float		enemyBullet_Radius[ENEMY_MAX];						//	敵の弾の半径
+	float		x_Speed;
+	float		y_Speed;
+	float		z_Speed;
+	bool		playerHitFlag;										//	敵の弾が当たったかどうか
 
+	struct HitPoint
+	{
+		D3DXVECTOR3 Pos;
+		D3DXVECTOR3 Rot;
+		D3DXVECTOR3 Scale;
+		D3DXVECTOR3 Accel;
+		float		y_Speed;
+		float		z_Speed;
+	};
 	//-----------------------------------------------------
 	//	カメラ関連
 	//-----------------------------------------------------
@@ -104,19 +122,6 @@ class Player
 		float		Radius[RAZER_MAX];			//	レーザーの半径
 	};
 
-	//-----------------------------------------------------
-	//	爆発関連
-	//-----------------------------------------------------
-	struct Pexplosion
-	{
-		D3DXVECTOR3 Pos[EXPLOSION_MAX];				//	爆発の座標
-		D3DXVECTOR3 Rot[EXPLOSION_MAX];				//	爆発の傾き
-		D3DXVECTOR3 Accel[EXPLOSION_MAX];			//	爆発の初速
-		D3DXVECTOR3 oldPos[EXPLOSION_MAX];			//	前フレームの爆発の座標
-		int			Count[EXPLOSION_MAX];			//	爆発の生存時間
-		bool		Exist[EXPLOSION_MAX];			//	爆発が生きてるかどうか
-		bool		flag;							//	爆発の制御フラグ
-	};
 
 private:
 
@@ -134,7 +139,7 @@ private:
 	Pbullet		*pBullet;
 	Pbomb		*pBomb;
 	Prazer		*pRazer;
-	Pexplosion	*pExp;
+	HitPoint	*hp;
 
 public:
 
@@ -156,7 +161,7 @@ public:
 	void InitBullet();
 	void InitBomb();
 	void InitRazer();
-	void InitExplosion();
+	void InitHpBar();
 
 	//	ショット
 	void Shot();
@@ -172,9 +177,7 @@ public:
 
 	//	当たり判定
 	void Hit();
-
-	//	爆発
-	void CreateExp(D3DXVECTOR3 Pos[], int Num);
+	void Destroy();
 
 	//	解放
 	void Release();

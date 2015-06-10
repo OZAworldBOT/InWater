@@ -6,10 +6,10 @@
 
 #include "Lib.h"
 
-Bullet::Bullet()
+Bullet::Bullet(const TCHAR *textureFileName, int Num)
 {
-	bulletPoint = new bullet_point[BULLET_MAX];
-	texture = new Texture("Texture/ball.bmp");
+	bulletPoint = new bullet_point[Num];
+	texture = new Texture(textureFileName);
 	bullet = new Graphic();
 }
 
@@ -20,20 +20,20 @@ Bullet::~Bullet()
 	delete[] bulletPoint;
 }
 
-void Bullet::Draw(D3DXVECTOR3 Pos[])
+void Bullet::Draw(D3DXVECTOR3 Pos[], float Size, int Num)
 {
-	Vertex3 *vertex = new Vertex3[BULLET_MAX];
+	Vertex3 *vertex = new Vertex3[Num];
 
-	for (int i = 0; i < BULLET_MAX; i++)
+	for (int i = 0; i < Num; i++)
 	{
 		bulletPoint[i].pos = Pos[i];
 
 		vertex[i].pos = bulletPoint[i].pos;
-		vertex[i].size = 0.7f;
+		vertex[i].size = Size;
 		vertex[i].color = 0xffffffff;
 
 	}
+	bullet->DrawPointSprite(vertex, Num, *texture);
 
-	bullet->DrawPointSprite(vertex, BULLET_MAX, *texture);
 	delete[] vertex;
 }
