@@ -20,7 +20,7 @@ Bullet::~Bullet()
 	delete[] bulletPoint;
 }
 
-void Bullet::Draw(D3DXVECTOR3 Pos[], float Size, int Num)
+void Bullet::Draw(D3DXVECTOR3 Pos[], float Size, int Num, bool alpha)
 {
 	Vertex3 *vertex = new Vertex3[Num];
 
@@ -33,7 +33,7 @@ void Bullet::Draw(D3DXVECTOR3 Pos[], float Size, int Num)
 		vertex[i].color = 0xffffffff;
 
 	}
-	bullet->DrawPointSprite(vertex, Num, *texture);
+	bullet->DrawPointSprite(vertex, Num, *texture, alpha);
 
 	delete[] vertex;
 }

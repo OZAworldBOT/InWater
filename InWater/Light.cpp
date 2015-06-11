@@ -27,9 +27,9 @@ Light::Light()
 	D3DXVECTOR3 lightAngle;
 	lightAngle = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &lightAngle);
-
 	d3dDevice->SetLight(0, &light);
 	d3dDevice->LightEnable(0, true);
+
 	d3dDevice->SetRenderState(D3DRS_LIGHTING, true);
 	d3dDevice->SetRenderState(D3DRS_AMBIENT, 0x00111111);
 	d3dDevice->SetRenderState(D3DRS_SPECULARENABLE, true);

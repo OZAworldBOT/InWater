@@ -120,6 +120,12 @@
     <ClCompile Include="Title.cpp">
       <Filter>Class\Title</Filter>
     </ClCompile>
+    <ClCompile Include="underEnemy.cpp">
+      <Filter>Class\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Class\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -181,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>Class\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="underEnemy.h">
+      <Filter>Class\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Class\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,9 @@
 #include "Main.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "underEnemy.h"
+#include "Boss.h"
+#include "Boss.h"
 #include "Stage.h"
 #include "Title.h"
 
@@ -29,6 +32,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 	unique_ptr<Stage> stage(new Stage());
 	unique_ptr<Player> player(new Player());
 	unique_ptr<Enemy> enemy(new Enemy());
+	unique_ptr<underEnemy> Uenemy(new underEnemy());
+	unique_ptr<Boss> boss(new Boss());
 	gameState = GAME_STATE_TITLE;
 
 	RECT recDisplay;
@@ -46,21 +51,17 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 		case GAME_STATE_TITLE:
 			if (GetAsyncKeyState(VK_RETURN))
 			{
-				title->Release();
 				gameState = GAME_STATE_MAIN;
 			}
 			else
 			{ 
 				title->View();
 				title->Move();
-				if (GetAsyncKeyState(VK_ESCAPE))
-				{
-					title->Release();
-				}
 			}
 			break;
 			
 		case GAME_STATE_MAIN:
+
 			//-----------------------
 			//	プレイヤー
 			//-----------------------
@@ -73,9 +74,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 			//	敵
 			//-----------------------
 			enemy->Draw();
-			enemy->Move();
-			enemy->Hit();
+			Uenemy->Draw();
+			boss->Draw();
 			
+			enemy->Move();
+			Uenemy->Move();
+			boss->Move();
+
+			enemy->Hit();
+			Uenemy->Hit();
 			//-----------------------
 			//	ステージ
 			//-----------------------
@@ -83,17 +90,27 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 
 			player->Shot();
 			enemy->Shot();
+			Uenemy->Shot();
 
 			extern bool playerDeath;
 			if (playerDeath == true)
 			{
 				gameState = GAME_STATE_FAILED;
 			}
-
+			
 			break;
 		case GAME_STATE_CLEAR:
 			break;
 		case GAME_STATE_FAILED:
+			if (GetAsyncKeyState(VK_RETURN))
+			{
+				player->ResetPlayer();
+				enemy->InitEnemy();
+				Uenemy->InitUEnemy();
+				stage->initStage();
+
+				gameState = GAME_STATE_MAIN;
+			}
 			break;
 		}
 

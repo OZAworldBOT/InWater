@@ -33,7 +33,7 @@ void Razer::Draw(D3DXVECTOR3 Pos[])
 		vertex[i].color = 0xffffffff;
 
 	}
-	razer->DrawPointSprite(vertex, RAZER_MAX, *texture);
+	razer->DrawPointSprite(vertex, RAZER_MAX, *texture, true);
 
 	delete[] vertex;
 }

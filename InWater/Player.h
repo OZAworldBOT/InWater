@@ -40,10 +40,11 @@ class Player
 	D3DXVECTOR3 oldPlayerPos;										//	前フレームのプレイヤーの座標
 	D3DXVECTOR3 oldPlayerRot;										//	前フレームのプレイヤーの傾き
 	int			Count;												//	制御カウンター
-	int			Vitality;											//	プレイヤーの体力
+	float		Vitality;											//	プレイヤーの体力
 	float		player_Radius;										//	プレイヤーの半径
 	float		enemy_Radius[ENEMY_MAX];							//	敵の半径
 	float		enemyBullet_Radius[ENEMY_MAX];						//	敵の弾の半径
+	float		UenemyBullet_Radius[ENEMY_MAX];						//	下の敵の弾の半径
 	float		x_Speed;
 	float		y_Speed;
 	float		z_Speed;
@@ -55,8 +56,6 @@ class Player
 		D3DXVECTOR3 Rot;
 		D3DXVECTOR3 Scale;
 		D3DXVECTOR3 Accel;
-		float		y_Speed;
-		float		z_Speed;
 	};
 	//-----------------------------------------------------
 	//	カメラ関連
@@ -162,6 +161,7 @@ public:
 	void InitBomb();
 	void InitRazer();
 	void InitHpBar();
+	void ResetPlayer();
 
 	//	ショット
 	void Shot();
@@ -176,7 +176,6 @@ public:
 	void RazerShot();
 
 	//	当たり判定
-	void Hit();
 	void Destroy();
 
 	//	解放

@@ -17,8 +17,8 @@ D3DXVECTOR3 enemyBulletPos[ENEMY_MAX];
 Enemy::Enemy()
 {
 	enemy = new Graphic[ENEMY_MAX];
-	model = new Model("Model/tako.x");
-	texture = new Texture("Texture/gold_block.png");
+	model = new Model("Model/jellyfish.x");
+	texture = new Texture("Texture/font_skin.png");
 	State = new EnemyState;
 	bullet = new Bullet("Texture/r_ball.bmp", 1);
 	Attack = new EnemyAttack[ENEMY_MAX];
@@ -50,7 +50,7 @@ void Enemy::InitEnemy()
 		State->Position[i].y = 10.0f;
 		State->Position[i].z = (float)((double)rand() / RAND_MAX * range.z) + State->MinRange.z;
 		State->Rotation[i] = D3DXVECTOR3(0, 0, 0);
-		State->Scale[i] = D3DXVECTOR3(10, 10, 10);
+		State->Scale[i] = D3DXVECTOR3(6, 6, 6);
 		State->Vitality[i] = 200;
 		State->enemyDeathCount = 0;
 		State->enemyDeathFlag[i] = false;
@@ -90,6 +90,27 @@ void Enemy::Release()
 	DebugLog("ìGÇîjä¸ÇµÇ‹ÇµÇΩÅB\n");
 }
 
+//	ìGÇÃï`âÊ
+void Enemy::Draw()
+{
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		if (State->enemyDeathFlag[i] == false)
+		{
+			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
+		}
+	}
+	if (State->enemyDeathCount >= ENEMY_MAX - 1)
+	{
+		InitEnemy();
+		for (int i = 0; i < ENEMY_MAX; i++)
+		{
+			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
+		}
+	}
+
+}
+
 //	ìGÇÃìÆçÏ
 void Enemy::Move()
 {
@@ -102,27 +123,27 @@ void Enemy::Move()
 		State->Scale[i].x += (0.02 + State->Accel[i].x * 0.02) * State->x_Speed[i];
 		State->Scale[i].z += (0.02 + State->Accel[i].x * 0.02) * State->z_Speed[i];
 		State->Scale[i].y += (0.02 + State->Accel[i].y * 0.02) * State->y_Speed[i];
-		if (State->Scale[i].x > 11)
+		if (State->Scale[i].x > 7)
 		{
 			State->x_Speed[i] = -1;
 		}
-		if (State->Scale[i].x < 9)
+		if (State->Scale[i].x < 5)
 		{
 			State->x_Speed[i] = 1;
 		}
-		if (State->Scale[i].z > 11)
+		if (State->Scale[i].z > 7)
 		{
 			State->z_Speed[i] = -1;
 		}
-		if (State->Scale[i].z < 9)
+		if (State->Scale[i].z < 5)
 		{
 			State->z_Speed[i] = 1;
 		}
-		if (State->Scale[i].y > 12)
+		if (State->Scale[i].y > 7)
 		{
 			State->y_Speed[i] = -1;
 		}
-		if (State->Scale[i].y < 10)
+		if (State->Scale[i].y < 6)
 		{
 			State->y_Speed[i] = 1;
 		}
@@ -138,10 +159,10 @@ void Enemy::Move()
 			State->Speed[i] = 1;
 		}
 		State->oldEnemyPos[i] = State->Position[i];
+		enemy_Collider[i] = State->oldEnemyPos[i];
 	}
 
 }
-
 
 //	ìGÇÃçUåÇ
 void Enemy::Shot()
@@ -150,7 +171,7 @@ void Enemy::Shot()
 	{
 
 		Attack[i].Frame++;
-		if (Attack[i].Frame % 150 == 0 && Attack[i].flag == false)
+		if (Attack[i].Frame % 600 == 0 && Attack[i].flag == false)
 		{
 			srand((unsigned int)time(NULL));
 			Attack[i].Pos = State->oldEnemyPos[i];
@@ -173,7 +194,7 @@ void Enemy::Shot()
 
 				if (Attack[i].death == false)
 				{
-					bullet->Draw(&Attack[i].Pos, 10.0f, 1);
+					bullet->Draw(&Attack[i].Pos, 10.0f, 1, true);
 				}
 			}
 			if (Attack[i].Count > 50)
@@ -193,7 +214,6 @@ void Enemy::Hit()
 {
 	//	ÉvÉåÉCÉÑÅ[ÇÃíeÇÃç¿ïW
 	extern D3DXVECTOR3 bulletState[BULLET_MAX];
-	extern D3DXVECTOR3 bombState[BOMB_MAX];
 	extern D3DXVECTOR3 razerState[RAZER_MAX];
 
 	//----------------------------------------------------------------
@@ -218,47 +238,7 @@ void Enemy::Hit()
 				if (State->Vitality[i] == 0)
 				{
 					State->enemyDeathCount += 1;
-					DebugLog("ÇΩÇ±ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
-				}
-			}
-		}
-		if (State->Vitality[i] <= 0)
-		{
-			State->Vitality[i] = -2;
-			State->Scale[i].x -= 0.1f;
-			State->Scale[i].z -= 0.1f;
-			State->oldEnemyPos[i] = State->Position[i];
-			State->Position[i].y += 0.3f;
-			if (State->Scale[i].x < 0)
-			{
-				State->enemyDeathFlag[i] = true;
-			}
-		}
-	}
-
-	//----------------------------------------------------------------
-	//	îöíeÇ∆ÇÃìñÇΩÇËîªíË
-	//----------------------------------------------------------------
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		for (int j = 0; j < BOMB_MAX; j++)
-		{
-			State->Collider[i] = State->Position[i];
-			State->Radius[i] = 10.0f;
-			bomb_Radius[j] = 0.5f;
-
-			if ((State->Collider[i].x - bombState[j].x) * (State->Collider[i].x - bombState[j].x) +
-				(State->Collider[i].y - bombState[j].y) * (State->Collider[i].y - bombState[j].y) +
-				(State->Collider[i].z - bombState[j].z) * (State->Collider[i].z - bombState[j].z) <=
-				(bomb_Radius[j] + State->Radius[i]) * (bomb_Radius[j] + State->Radius[i]))
-			{
-				State->Vitality[i] -= 3;
-				State->enemyHitFlag[i] = true;
-				DestroyEnemy();
-				if (State->Vitality[i] == 0)
-				{
-					State->enemyDeathCount += 1;
-					DebugLog("ÇΩÇ±ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
+					DebugLog("Ç≠ÇÁÇ∞ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
 				}
 			}
 		}
@@ -284,7 +264,7 @@ void Enemy::Hit()
 		for (int j = 0; j < RAZER_MAX; j++)
 		{
 			State->Collider[i] = State->Position[i];
-			State->Radius[i] = 10.0f;
+			State->Radius[i] = 15.0f;
 			razer_Radius[j] = 0.5f;
 
 			if ((State->Collider[i].x - razerState[j].x) * (State->Collider[i].x - razerState[j].x) +
@@ -298,7 +278,7 @@ void Enemy::Hit()
 				if (State->Vitality[i] == 0)
 				{
 					State->enemyDeathCount += 1;
-					DebugLog("ÇΩÇ±ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
+					DebugLog("Ç≠ÇÁÇ∞ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
 				}
 			}
 		}
@@ -318,27 +298,6 @@ void Enemy::Hit()
 
 }
 
-//	ìGÇÃï`âÊ
-void Enemy::Draw()
-{
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		if (State->enemyDeathFlag[i] == false)
-		{
-			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
-		}
-	}
-	if (State->enemyDeathCount >= ENEMY_MAX)
-	{
-		InitEnemy();
-		for (int i = 0; i < ENEMY_MAX; i++)
-		{
-			enemy->DrawModelTexture(State->Position[i], State->Rotation[i], State->Scale[i], *model, *texture, true);
-		}
-	}
-
-}
-
 void Enemy::DestroyEnemy()
 {
 	for (int i = 0; i < ENEMY_MAX; i++)
@@ -350,28 +309,28 @@ void Enemy::DestroyEnemy()
 			State->Scale[i].y += State->Accel[i].y * 0.8f * State->y_Speed[i];
 			State->Scale[i].z += State->Accel[i].z * 0.8f * State->z_Speed[i];
 
-			if (State->Scale[i].x > 12)
+			if (State->Scale[i].x > 8)
 			{
 				State->x_Speed[i] = -1;
 			}
-			if (State->Scale[i].y > 12)
+			if (State->Scale[i].y > 8)
 			{
 				State->y_Speed[i] = -1;
 			}
-			if (State->Scale[i].z > 12)
+			if (State->Scale[i].z > 8)
 			{
 				State->z_Speed[i] = -1;
 			}
 
-			if (State->Scale[i].x < 8)
+			if (State->Scale[i].x < 4)
 			{
 				State->x_Speed[i] = 1;
 			}
-			if (State->Scale[i].y < 8)
+			if (State->Scale[i].y < 4)
 			{
 				State->y_Speed[i] = 1;
 			}
-			if (State->Scale[i].z < 8)
+			if (State->Scale[i].z < 4)
 			{
 				State->z_Speed[i] = 1;
 			}

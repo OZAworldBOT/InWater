@@ -87,7 +87,7 @@ void Stage::View()
 
 	}
 
-	stage->DrawPointSprite(vertex, BUBBLE_MAX, *water);
+	stage->DrawPointSprite(vertex, BUBBLE_MAX, *water, true);
 	delete[] vertex;
 
 

@@ -32,7 +32,7 @@ void Explosion::Draw(D3DXVECTOR3 Pos[])
 		vertex[i].color = 0xffffffff;
 	}
 
-	explosion->DrawPointSprite(vertex, EXPLOSION_MAX, *texture);
+	explosion->DrawPointSprite(vertex, EXPLOSION_MAX, *texture, true);
 	delete[] vertex;
 }
 

@@ -43,8 +43,8 @@ public:
 	void DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3DXVECTOR3 &scale, Model &model, Texture &texture, bool alpha);
 
 	// ポイントスプライトを描画する
-	void DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture);
-	void DrawPointSprite_A(Vertex3 point[], int numPoint, Texture &texture, bool alpha);
+	void DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture, bool alpha);
+	void DrawPointSprite_A(Vertex3 point[], int numPoint, Texture &texture, bool zBuffer);
 
 	// 文字列の描画
 	void DrawString(RECT rect, const TCHAR *str);

@@ -24,8 +24,8 @@ Title::Title()
 	model[1].LoadMesh("Model/tako.x");
 	texture = new Texture[3];
 	texture[0].LoadTexture("Texture/effect2.png");
-	texture[1].LoadTexture("Texture/gold_block.png");
-	texture[2].LoadTexture("Texture/enemy2.png");
+	texture[1].LoadTexture("Texture/font_skin.png");
+	texture[2].LoadTexture("Texture/red_skin.png");
 	graphic = new Graphic();
 	camera = new Camera();
 
@@ -34,6 +34,7 @@ Title::Title()
 
 Title::~Title()
 {
+	Release();
 }
 
 

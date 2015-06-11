@@ -96,7 +96,7 @@ void Graphic::DrawModelTexture(D3DXVECTOR3 &position, D3DXVECTOR3 &rotation, D3D
 }
 
 // ポイントスプライトを描画する アルファブレンドOFF
-void Graphic::DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture)
+void Graphic::DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture, bool alpha)
 {
 	Vertex3 *vertex;
 
@@ -123,7 +123,7 @@ void Graphic::DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture)
 	d3dDevice->SetTransform(D3DTS_WORLD, &m_world);
 
 	//アルファブレンディングを行う
-	d3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	d3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, alpha);
 	d3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	// ポイントスプライトの描画
@@ -138,7 +138,7 @@ void Graphic::DrawPointSprite(Vertex3 point[], int numPoint, Texture &texture)
 }
 
 // ポイントスプライトを描画する アルファブレンドON
-void Graphic::DrawPointSprite_A(Vertex3 point[], int numPoint, Texture &texture, bool alpha)
+void Graphic::DrawPointSprite_A(Vertex3 point[], int numPoint, Texture &texture, bool zBuffer)
 {
 	Vertex3 *vertex;
 
@@ -169,7 +169,7 @@ void Graphic::DrawPointSprite_A(Vertex3 point[], int numPoint, Texture &texture,
 	d3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	// ポイントスプライトの描画
-	d3dDevice->SetRenderState(D3DRS_ZENABLE, alpha);	// Z比較を行わない
+	d3dDevice->SetRenderState(D3DRS_ZENABLE, zBuffer);	// Z比較を行わない
 	d3dDevice->SetStreamSource(0, pointBuffer, 0, sizeof(Vertex3));
 	d3dDevice->SetFVF(VERTEX3_FVF);
 	d3dDevice->DrawPrimitive(D3DPT_POINTLIST, 0, numPoint);

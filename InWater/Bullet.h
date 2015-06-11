@@ -32,5 +32,5 @@ public:
 	~Bullet();
 
 	//	•`‰æ‚·‚é
-	void Draw(D3DXVECTOR3 Pos[], float Size, int Num);
+	void Draw(D3DXVECTOR3 Pos[], float Size, int Num, bool alpha);
 };

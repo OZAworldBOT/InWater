@@ -26,11 +26,11 @@ Player::Player()
 	HpBar = new Graphic();
 
 	model = new Model[2];
-	model[0].LoadMesh("Model/heli.x");
+	model[0].LoadMesh("Model/dolphin.x");
 	model[1].LoadMesh("Model/HpBar.x");
 	texture = new Texture[2];
-	texture[0].LoadTexture("Texture/enemy1.png");
-	texture[1].LoadTexture("Texture/diamond_block.png");
+	texture[0].LoadTexture("Texture/blue_skin.png");
+	texture[1].LoadTexture("Texture/hp_skin.png");
 
 	bullet = new Bullet("Texture/ball.bmp", BULLET_MAX);
 	bomb = new Bomb();
@@ -45,10 +45,6 @@ Player::Player()
 	DebugLog("プレイヤーを生成しました。\n");
 
 	InitPlayer();
-	InitBullet();
-	InitBomb();
-	InitRazer();
-	InitHpBar();
 }
 
 //	デストラクタ
@@ -57,7 +53,9 @@ Player::~Player()
 	Release();
 }
 
+//------------------------------------------------------------------------------------------------------------
 //	初期化
+//------------------------------------------------------------------------------------------------------------
 void Player::InitPlayer()
 {
 	Position = D3DXVECTOR3(1000, 8, 1000);
@@ -72,11 +70,14 @@ void Player::InitPlayer()
 	Vitality = 400;
 
 	camera_Pos = D3DXVECTOR3(0, 15, -10);
-	camera_Rot = D3DXVECTOR3(D3DXToRadian(10), 0, 0);
+	camera_Rot = D3DXVECTOR3(D3DXToRadian(-10), 0, 0);
 
+	InitBullet();
+	InitBomb();
+	InitRazer();
+	InitHpBar();
 	DebugLog("プレイヤーを初期化しました。\n");
 }
-
 void Player::InitBullet()
 {
 	for (int i = 0; i < BULLET_MAX; i++)
@@ -87,7 +88,6 @@ void Player::InitBullet()
 		pBullet->death[i] = true;
 	}
 }
-
 void Player::InitBomb()
 {
 	pBomb->Exist = false;
@@ -105,7 +105,6 @@ void Player::InitBomb()
 		pBomb->Explosion_Alpha = true;
 	}
 }
-
 void Player::InitRazer()
 {
 	for (int i = 0; i < RAZER_MAX; i++)
@@ -116,17 +115,25 @@ void Player::InitRazer()
 		pRazer->Count[i] = 0;
 	}
 }
-
 void Player::InitHpBar()
 {
 	hp->Pos = D3DXVECTOR3(997, 17, 1000);
 	hp->Rot = D3DXVECTOR3(0, -0.1, 0);
 	hp->Scale = D3DXVECTOR3(40, 40, 40);
-	hp->y_Speed = 1;
-	hp->z_Speed = 1;
+}
+void Player::ResetPlayer()
+{
+	playerHitFlag = false;
+	playerDeath = false;
+	Count = 0;
+	x_Speed = 1;
+	y_Speed = 1;
+	z_Speed = 1;
+	Vitality = 400;
+	hp->Scale = D3DXVECTOR3(40, 40, 40);
 }
 
-//	解放処理
+//	解放
 void Player::Release()
 {
 	delete camera;
@@ -146,7 +153,22 @@ void Player::Release()
 	DebugLog("プレイヤーを破棄しました。\n");
 }
 
-//	動作
+//------------------------------------------------------------------------------------------------------------
+//	描画
+//------------------------------------------------------------------------------------------------------------
+void Player::Draw()
+{
+	player->DrawModelTexture(Position, Rotation, Scale, model[0], texture[0], true);
+	HpBar->DrawModelTexture(hp->Pos, hp->Rot, hp->Scale, model[1], texture[1], true);
+}
+void Player::View()
+{
+	camera->View(camera_Pos, camera_Rot);
+}
+
+//-----------------------------------------------------------------------------------------------------------
+//	以下プレイヤーの攻撃関連の動作を記述
+//-----------------------------------------------------------------------------------------------------------
 void Player::Move()
 {
 	//移動する	キーボードで操作
@@ -184,15 +206,15 @@ void Player::Move()
 		{
 			cameraAngle -= 2 * D3DX_PI;
 		}
-		
+
 		camera_Rot.x += dims.lY * 0.005f;
 		if (camera_Rot.x < D3DXToRadian(5))
 		{
 			camera_Rot.x = D3DXToRadian(5);
 		}
-		if (camera_Rot.x > D3DXToRadian(5))
+		if (camera_Rot.x > D3DXToRadian(15))
 		{
-			camera_Rot.x = D3DXToRadian(5);
+			camera_Rot.x = D3DXToRadian(15);
 		}
 
 	}
@@ -204,7 +226,7 @@ void Player::Move()
 	camera_Rot.y += dims.lX * 0.005f;
 	Rotation.y = camera_Rot.y + D3DXToRadian(0);
 	hp->Pos.x = Position.x - 3 * cosf(cameraAngle);
-	hp->Pos.y = Position.y + 9;
+	hp->Pos.y = Position.y + 10 * (sinf(camera_Rot.x * -1) + cosf(camera_Rot.x * -1));
 	hp->Pos.z = Position.z + 3 * sinf(cameraAngle);
 	hp->Rot.y = Rotation.y + D3DXToRadian(-20);
 	oldPlayerRot.y = Rotation.y;
@@ -220,21 +242,6 @@ void Player::Shot()
 	BombShot();
 	RazerShot();
 }
-
-//	描画
-void Player::Draw()
-{
-	player->DrawModelTexture(Position, Rotation, Scale, model[0], texture[0], true);
-	HpBar->DrawModelTexture(hp->Pos, hp->Rot, hp->Scale, model[1], texture[1], true);
-}
-
-void Player::View()
-{
-	camera->View(camera_Pos, camera_Rot);
-}
-//-----------------------------------------------------------------------------------------------------------
-//	以下プレイヤーの攻撃関連の動作を記述
-//-----------------------------------------------------------------------------------------------------------
 
 //	弾丸のショット
 void Player::BulletShot()
@@ -276,10 +283,9 @@ void Player::BulletShot()
 
 				if (pBullet->death[i] == false)
 				{
-					bullet->Draw(&pBullet->Pos[i], 0.7f, BULLET_MAX);
+					bullet->Draw(&pBullet->Pos[i], 0.7f, BULLET_MAX, true);
 				}
 
-				Hit();
 			}
 			if (pBullet->Count[i] > 30)
 			{
@@ -292,7 +298,6 @@ void Player::BulletShot()
 			{
 				pBullet->Pos[i].y = 1000.0f;
 				pBullet->oldPos[i] = pBullet->Pos[i];
-				//CreateExp(&pBullet->oldPos[i], BULLET_MAX);
 			}
 		}
 		bulletState[i] = pBullet->Pos[i];
@@ -320,8 +325,7 @@ void Player::BombShot()
 	}
 	if (pBomb->Exist == true)
 	{
-		pBomb->Count++;
-		if (pBomb->Count < 60)
+		if (pBomb->Pos.y > -30)
 		{
 			pBomb->flag = true;
 			pBomb->death = false;
@@ -332,18 +336,18 @@ void Player::BombShot()
 			pBomb->oldPos = pBomb->Pos;
 			bomb->Draw(&pBomb->Pos, pBomb->Size, pBomb->Alpha);
 		}
-		if (pBomb->Count > 60)
+		if (pBomb->Pos.y < -30)
 		{
 			pBomb->death = true;
 		}
 		for (int i = 0; i < BOMB_MAX; i++)
 		{
-			if (pBomb->Pos.y < 0)
+			if (pBomb->Pos.y < -30)
 			{
 				pBomb->Explosion_Exist[i] = true;
 				pBomb->Explosion_Pos[i] = pBomb->oldPos;
-				pBomb->MinRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x - 10, -10, pBomb->Explosion_Pos[i].z - 10);
-				pBomb->MaxRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x + 10, 10, pBomb->Explosion_Pos[i].z + 10);
+				pBomb->MinRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x - 10, -40, pBomb->Explosion_Pos[i].z - 10);
+				pBomb->MaxRange = D3DXVECTOR3(pBomb->Explosion_Pos[i].x + 10, -20, pBomb->Explosion_Pos[i].z + 10);
 			}
 			if (pBomb->Explosion_Exist[i] == true)
 			{
@@ -361,7 +365,6 @@ void Player::BombShot()
 					pBomb->Explosion_Pos[i].y += rand() % 10 * 0.0008f;
 					pBomb->Explosion_Pos[i].z += (pBomb->Explosion_Accel[i].z + i * 0.005f) * 50.0f;
 					bomb->Draw(&pBomb->Explosion_Pos[i], pBomb->Explosion_Size, pBomb->Explosion_Alpha);
-					Hit();
 				}
 				if (pBomb->Explosion_Count[i] > 30)
 				{
@@ -421,7 +424,6 @@ void Player::RazerShot()
 				pRazer->Pos[i].x += sin(pRazer->Rot[i].y) * 2.0f * cos(pRazer->Rot[i].x) + pRazer->Accel[i].x * 1.5f;
 				pRazer->Pos[i].z += cos(pRazer->Rot[i].y) * 2.0f * cos(pRazer->Rot[i].x) + pRazer->Accel[i].z * 0.5f;
 				razer->Draw(&pRazer->Pos[i]);
-				Hit();
 			}
 			if (pRazer->Pos[i].y < 0)
 			{
@@ -451,112 +453,69 @@ void Player::RazerShot()
 }
 
 //	当たり判定
-void Player::Hit()
-{
-	//	敵の座標
-	extern D3DXVECTOR3 enemy_Collider[ENEMY_MAX];
-
-	//----------------------------------------------------------------
-	//	弾丸の当たり判定
-	//----------------------------------------------------------------
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		for (int j = 0; j < BULLET_MAX; j++)
-		{
-			enemy_Radius[i] = 10.0f;
-			pBullet->Radius[j] = 0.5f;
-
-			if ((enemy_Collider[i].x - pBullet->Pos[j].x) * (enemy_Collider[i].x - pBullet->Pos[j].x) +
-				(enemy_Collider[i].y - pBullet->Pos[j].y) * (enemy_Collider[i].y - pBullet->Pos[j].y) +
-				(enemy_Collider[i].z - pBullet->Pos[j].z) * (enemy_Collider[i].z - pBullet->Pos[j].z) <=
-				(pBullet->Radius[j] + enemy_Radius[i]) * (pBullet->Radius[j] + enemy_Radius[i]))
-			{
-				pBullet->Pos[i].y = 1000.0f; 
-				pBullet->death[j] = true;
-			}
-
-		}
-	}
-
-	//----------------------------------------------------------------
-	//	爆弾の当たり判定
-	//----------------------------------------------------------------
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		for (int j = 0; j < BOMB_MAX; j++)
-		{
-			enemy_Radius[i] = 10.0f;
-			pBomb->Explosion_Radius[j] = 0.5f;
-
-			if ((enemy_Collider[i].x - pBomb->Explosion_Pos[j].x) * (enemy_Collider[i].x - pBomb->Explosion_Pos[j].x) +
-				(enemy_Collider[i].y - pBomb->Explosion_Pos[j].y) * (enemy_Collider[i].y - pBomb->Explosion_Pos[j].y) +
-				(enemy_Collider[i].z - pBomb->Explosion_Pos[j].z) * (enemy_Collider[i].z - pBomb->Explosion_Pos[j].z) <=
-				(pBomb->Explosion_Radius[j] + enemy_Radius[i]) * (pBomb->Explosion_Radius[j] + enemy_Radius[i]))
-			{
-				pBomb->Explosion_Death[j] = true;
-			}
-
-		}
-	}
-
-	//----------------------------------------------------------------
-	//	レーザーの当たり判定
-	//----------------------------------------------------------------
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		for (int j = 0; j < RAZER_MAX; j++)
-		{
-			enemy_Radius[i] = 10.0f;
-			pRazer->Radius[j] = 0.5f;
-
-			if ((enemy_Collider[i].x - pRazer->Pos[j].x) * (enemy_Collider[i].x - pRazer->Pos[j].x) +
-				(enemy_Collider[i].y - pRazer->Pos[j].y) * (enemy_Collider[i].y - pRazer->Pos[j].y) +
-				(enemy_Collider[i].z - pRazer->Pos[j].z) * (enemy_Collider[i].z - pRazer->Pos[j].z) <=
-				(pRazer->Radius[j] + enemy_Radius[i]) * (pRazer->Radius[j] + enemy_Radius[i]))
-			{
-				pRazer->Pos[i].y = 1000.0f;
-				pRazer->death[j] = true;
-			}
-
-		}
-	}
-
-}
-
 void Player::Destroy()
 {
 	extern D3DXVECTOR3 enemyBulletPos[ENEMY_MAX];
+	extern D3DXVECTOR3 UenemyBulletPos[ENEMY_MAX];
+	extern D3DXVECTOR3 enemy_Collider[ENEMY_MAX];
 
-	//----------------------------------------------------------------
-	//	敵の弾との当たり判定
-	//----------------------------------------------------------------
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
-		player_Radius = 15.0f;
-		enemyBullet_Radius[i] = 10.0f;
+		player_Radius = 10.0f;
+		enemyBullet_Radius[i] = 8.0f;
+		UenemyBullet_Radius[i] = 4.0f;
+		enemy_Radius[i] = 8.0f;
+		//----------------------------------------------------------------
+		//	敵の弾との当たり判定
+		//----------------------------------------------------------------
 		if ((enemyBulletPos[i].x - inputState.x) * (enemyBulletPos[i].x - inputState.x) +
 			(enemyBulletPos[i].y - inputState.y) * (enemyBulletPos[i].y - inputState.y) +
 			(enemyBulletPos[i].z - inputState.z) * (enemyBulletPos[i].z - inputState.z) <=
+			(player_Radius + enemyBullet_Radius[i]) * (player_Radius + enemyBullet_Radius[i]))
+		{
+			DebugLog("Hit\n");
+			playerHitFlag = true;
+			Vitality -= 1;
+			hp->Scale.x -= 0.1;
+			hp->Scale.z -= 0.1;
+		}
+
+
+		if ((UenemyBulletPos[i].x - inputState.x) * (UenemyBulletPos[i].x - inputState.x) +
+			(UenemyBulletPos[i].y - inputState.y) * (UenemyBulletPos[i].y - inputState.y) +
+			(UenemyBulletPos[i].z - inputState.z) * (UenemyBulletPos[i].z - inputState.z) <=
+			(player_Radius + UenemyBullet_Radius[i]) * (player_Radius + UenemyBullet_Radius[i]))
+		{
+			DebugLog("Hit\n");
+			playerHitFlag = true;
+			Vitality -= 2;
+			hp->Scale.x -= 0.2;
+			hp->Scale.z -= 0.2;
+		}
+
+		//----------------------------------------------------------------
+		//	敵の弾との当たり判定
+		//----------------------------------------------------------------
+		if ((enemy_Collider[i].x - inputState.x) * (enemy_Collider[i].x - inputState.x) +
+			(enemy_Collider[i].y - inputState.y) * (enemy_Collider[i].y - inputState.y) +
+			(enemy_Collider[i].z - inputState.z) * (enemy_Collider[i].z - inputState.z) <=
 			(player_Radius + enemy_Radius[i]) * (player_Radius + enemy_Radius[i]))
 		{
 			DebugLog("Hit\n");
 			playerHitFlag = true;
-			Vitality -= 4;
-			hp->Scale.x -= 0.4;
-			hp->Scale.z -= 0.4;
+			Vitality -= 0.3;
+			hp->Scale.x -= 0.03;
+			hp->Scale.z -= 0.03;
 		}
 		if (Vitality < 0)
 		{
 			playerDeath = true;
 		}
 	}
+
 	if (playerHitFlag == true)
 	{
 		Count++;
-
-		//-------------------------------------------
-		//	プレイヤーの拡大率
-		//-------------------------------------------
 		D3DXVec3Normalize(&Accel, &D3DXVECTOR3(rand() % 10, rand() % 10, rand() % 10));
 		Scale.x += Accel.x * 0.5f * x_Speed;
 		Scale.y += Accel.y * 0.5f * y_Speed;
