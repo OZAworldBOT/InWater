@@ -237,7 +237,6 @@ void underEnemy::Hit()
 				if (State->Vitality[i] == 0)
 				{
 					State->enemyDeathCount += 1;
-					DebugLog("ÇΩÇ±ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
 				}
 			}
 		}

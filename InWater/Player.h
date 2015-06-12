@@ -45,6 +45,7 @@ class Player
 	float		enemy_Radius[ENEMY_MAX];							//	“G‚Ì”¼Œa
 	float		enemyBullet_Radius[ENEMY_MAX];						//	“G‚Ì’e‚Ì”¼Œa
 	float		UenemyBullet_Radius[ENEMY_MAX];						//	‰º‚Ì“G‚Ì’e‚Ì”¼Œa
+	float		Boss_Radius;										//	ƒ{ƒX‚Ì”¼Œa
 	float		x_Speed;
 	float		y_Speed;
 	float		z_Speed;

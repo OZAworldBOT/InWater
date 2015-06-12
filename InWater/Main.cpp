@@ -83,6 +83,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 
 			enemy->Hit();
 			Uenemy->Hit();
+			boss->Hit();
 			//-----------------------
 			//	ステージ
 			//-----------------------
@@ -107,6 +108,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 				player->ResetPlayer();
 				enemy->InitEnemy();
 				Uenemy->InitUEnemy();
+				boss->InitBoss();
 				stage->initStage();
 
 				gameState = GAME_STATE_MAIN;
@@ -115,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 		}
 
 		//	エスケープキーを押したらゲーム終了
-		if (GetAsyncKeyState(VK_ESCAPE))
+		if (GetAsyncKeyState(VK_ESCAPE) && gameState == GAME_STATE_FAILED)
 		{
 			break;
 		}
@@ -126,5 +128,3 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmdShow)
 
 	return 0;
 }
-
-

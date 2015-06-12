@@ -458,6 +458,7 @@ void Player::Destroy()
 	extern D3DXVECTOR3 enemyBulletPos[ENEMY_MAX];
 	extern D3DXVECTOR3 UenemyBulletPos[ENEMY_MAX];
 	extern D3DXVECTOR3 enemy_Collider[ENEMY_MAX];
+	extern D3DXVECTOR3 Boss_Collider;
 
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
@@ -468,25 +469,24 @@ void Player::Destroy()
 		//----------------------------------------------------------------
 		//	“G‚Ì’e‚Æ‚Ì“–‚½‚è”»’è
 		//----------------------------------------------------------------
+		//	ƒvƒŒƒCƒ„[‚Æ“¯‚¶ˆÊ’u‚Ì“G‚Ì’e
 		if ((enemyBulletPos[i].x - inputState.x) * (enemyBulletPos[i].x - inputState.x) +
 			(enemyBulletPos[i].y - inputState.y) * (enemyBulletPos[i].y - inputState.y) +
 			(enemyBulletPos[i].z - inputState.z) * (enemyBulletPos[i].z - inputState.z) <=
 			(player_Radius + enemyBullet_Radius[i]) * (player_Radius + enemyBullet_Radius[i]))
 		{
-			DebugLog("Hit\n");
 			playerHitFlag = true;
 			Vitality -= 1;
 			hp->Scale.x -= 0.1;
 			hp->Scale.z -= 0.1;
 		}
 
-
+		//	ƒvƒŒƒCƒ„[‚æ‚è‰º‚ÌˆÊ’u‚Ì“G‚Ì’e
 		if ((UenemyBulletPos[i].x - inputState.x) * (UenemyBulletPos[i].x - inputState.x) +
 			(UenemyBulletPos[i].y - inputState.y) * (UenemyBulletPos[i].y - inputState.y) +
 			(UenemyBulletPos[i].z - inputState.z) * (UenemyBulletPos[i].z - inputState.z) <=
 			(player_Radius + UenemyBullet_Radius[i]) * (player_Radius + UenemyBullet_Radius[i]))
 		{
-			DebugLog("Hit\n");
 			playerHitFlag = true;
 			Vitality -= 2;
 			hp->Scale.x -= 0.2;
@@ -496,12 +496,12 @@ void Player::Destroy()
 		//----------------------------------------------------------------
 		//	“G‚Ì’e‚Æ‚Ì“–‚½‚è”»’è
 		//----------------------------------------------------------------
+		//	ƒvƒŒƒCƒ„[‚Æ“¯‚¶ˆÊ’u‚Ì“G
 		if ((enemy_Collider[i].x - inputState.x) * (enemy_Collider[i].x - inputState.x) +
 			(enemy_Collider[i].y - inputState.y) * (enemy_Collider[i].y - inputState.y) +
 			(enemy_Collider[i].z - inputState.z) * (enemy_Collider[i].z - inputState.z) <=
 			(player_Radius + enemy_Radius[i]) * (player_Radius + enemy_Radius[i]))
 		{
-			DebugLog("Hit\n");
 			playerHitFlag = true;
 			Vitality -= 0.3;
 			hp->Scale.x -= 0.03;
@@ -513,6 +513,28 @@ void Player::Destroy()
 		}
 	}
 
+	//	ƒ{ƒX
+	Boss_Radius = 110;
+	if ((Boss_Collider.x - inputState.x) * (Boss_Collider.x - inputState.x) +
+		(Boss_Collider.y - inputState.y) * (Boss_Collider.y - inputState.y) +
+		(Boss_Collider.z - inputState.z) * (Boss_Collider.z - inputState.z) <=
+		(player_Radius + Boss_Radius) * (player_Radius + Boss_Radius))
+	{
+		playerHitFlag = true;
+		Vitality -= 2;
+		hp->Scale.x -= 0.2;
+		hp->Scale.z -= 0.2;
+	}
+	if (Vitality < 0)
+	{
+		playerDeath = true;
+	}
+
+
+
+	//------------------------------------------------------------------------------------------
+	//	“–‚½‚è”»’èŒã‚Ìˆ—
+	//------------------------------------------------------------------------------------------
 	if (playerHitFlag == true)
 	{
 		Count++;

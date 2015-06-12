@@ -238,7 +238,6 @@ void Enemy::Hit()
 				if (State->Vitality[i] == 0)
 				{
 					State->enemyDeathCount += 1;
-					DebugLog("Ç≠ÇÁÇ∞ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
 				}
 			}
 		}
@@ -278,7 +277,6 @@ void Enemy::Hit()
 				if (State->Vitality[i] == 0)
 				{
 					State->enemyDeathCount += 1;
-					DebugLog("Ç≠ÇÁÇ∞ÅFÇ¢ÇΩÇ¢Å`Ç¡\n");
 				}
 			}
 		}

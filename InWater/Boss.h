@@ -27,8 +27,8 @@ class Boss
 		D3DXVECTOR3 Collider;			//	“G‚Ì’†SÀ•W
 		D3DXVECTOR3 MaxRange;			//	“GoŒ»‚ÌÅ‘å”ÍˆÍ
 		D3DXVECTOR3 MinRange;			//	“GoŒ»‚ÌÅ¬”ÍˆÍ
-		int			Vitality;			//	“G‚Ì‘Ì—Í
-		int			DeathCount;	//	“G‚ÉUŒ‚‚ª“–‚½‚Á‚½‰ñ”
+		double		Vitality;			//	“G‚Ì‘Ì—Í
+		int			DeathCount;			//	“G‚ÉUŒ‚‚ª“–‚½‚Á‚½‰ñ”
 		float		Radius;				//	“G‚Ì”¼Œa
 		bool		DeathFlag;			//	“G‚ª¶‚«‚Ä‚é‚©‚Ç‚¤‚©
 		bool		HitFlag;			//	“G‚É“–‚½‚Á‚½

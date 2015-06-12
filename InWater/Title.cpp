@@ -121,7 +121,6 @@ void Title::View()
 			tako_Pos.x = (float)((double)rand() / RAND_MAX * range.x) + MinRange.x;
 			tako_Pos.z = (float)((double)rand() / RAND_MAX * range.z) + MinRange.z;
 			tako_Pos.y = 0;
-			tako_Flag = false;
 			tako_Flag = true;
 		}
 	}

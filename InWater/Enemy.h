@@ -11,16 +11,6 @@ class Model;
 class Graphic;
 class Bullet;
 
-//粒子のデーター
-struct e_point
-{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 accel;
-	int deathCount;
-	bool exist;
-};
-
-
 class Enemy
 {
 	//-----------------------------------------------------
@@ -73,7 +63,6 @@ class Enemy
 	//-----------------------------------------------------
 	float		bullet_Radius[BULLET_MAX];		//	弾丸の半径
 	float		razer_Radius[RAZER_MAX];		//	レーザーの半径
-	float		bomb_Radius[BOMB_MAX];			//	爆弾の半径
 
 
 private:
