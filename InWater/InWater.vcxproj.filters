@@ -61,6 +61,9 @@
     <Filter Include="Class\Title">
       <UniqueIdentifier>{89fa2ec4-f530-405d-8b20-450c9a67cf46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Failed">
+      <UniqueIdentifier>{63d027e6-45dc-4f6a-a04d-753c2bd5826a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Class\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Failed.cpp">
+      <Filter>Class\Failed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Class\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Failed.h">
+      <Filter>Class\Failed</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

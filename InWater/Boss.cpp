@@ -138,8 +138,12 @@ void Boss::Move()
 	{
 		State->Speed = 1;
 	}
-	State->oldEnemyPos = State->Position;
-	Boss_Collider = State->oldEnemyPos;
+
+	if (State->CountFlag == true)
+	{
+		State->oldEnemyPos = State->Position;
+		Boss_Collider = State->oldEnemyPos;
+	}
 }
 //	“–‚½‚è”»’è
 void Boss::Hit()
