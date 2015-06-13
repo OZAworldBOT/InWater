@@ -59,8 +59,5 @@ private:
 
 	//DirectInputデバイスの初期化
 	bool InitDinputDevice();
-
-	//	ランタイムモードのチェック
-	int Check();
 };
 

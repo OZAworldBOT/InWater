@@ -190,7 +190,7 @@ void underEnemy::Shot()
 				Attack[i].Accel = D3DXVECTOR3(rand() % 3 - 1, rand() % 3 - 1, rand() % 3 - 1);
 				Attack[i].Pos.x += 0.3f * i * Attack[i].Accel.x;
 				Attack[i].Pos.z += 0.3f * i * Attack[i].Accel.z;
-				Attack[i].Pos.y += 1.5f * (1 + i) * Attack[i].Accel.y;
+				Attack[i].Pos.y += 1.5f * Attack[i].Accel.y + 2;
 
 				if (Attack[i].death == false)
 				{

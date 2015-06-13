@@ -36,11 +36,6 @@ Application::Application(char* win_title, RECT win_rect, bool win_fullscreen, HI
 
 	//アプリケーションの初期化
 	Initialize(win_title, win_rect, win_fullscreen, hInst, cmdShow);
-
-	//	ランタイムモードのチェック
-#ifndef _DEBUG
-	Check();
-#endif
 }
 
 //デストラクタ
@@ -316,20 +311,6 @@ bool Application::InitDinputDevice()
 	dinputDevice->Acquire();
 
 	return true;
-}
-
-int Application::Check()
-{
-	//	リリースコンパイルのときはDirect3Dランタイムがリテールモードのときのみ実行可能とする
-	//	ランタイムモードをチェックする
-	IDirect3DQuery9** ppQuery = NULL;
-	if (SUCCEEDED(d3dDevice->CreateQuery(D3DQUERYTYPE_VERTEXSTATS, ppQuery)))
-	{
-		::MessageBox(hWnd, "Direct3Dランタイムがデバッグモードです。リテールモードに変更してください。", "実行時エラー", MB_OK);
-		::DestroyWindow(hWnd);
-		return 0;
-	}
-
 }
 
 
