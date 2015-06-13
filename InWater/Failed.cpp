@@ -95,7 +95,7 @@ void Failed::View()
 	}
 	graphic->DrawString({ 0, 0, 800, 500 }, "ENTER->Retry");
 	graphic->DrawString({ 0, 0, 800, 700 }, "ESCAPE->End");
-	graphic->DrawPointSprite_A(vertex, POINT_MAX, *texture, false);
+	graphic->DrawPointSprite_A(vertex, POINT_MAX, *texture, true);
 	
 	camera->View(camera_Pos, camera_Rot);
 	

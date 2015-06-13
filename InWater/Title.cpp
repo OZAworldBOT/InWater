@@ -106,7 +106,7 @@ void Title::View()
 		vertex[i].color = 0xffffffff;
 	}
 	graphic->DrawString({ 0, 0, 800, 900 }, "PUSH ENTER");
-	graphic->DrawPointSprite_A(vertex, POINT_MAX, texture[0], false);
+	graphic->DrawPointSprite_A(vertex, POINT_MAX, texture[0], true);
 	delete[] vertex;
 
 	//-----------------------------------------------------------------
