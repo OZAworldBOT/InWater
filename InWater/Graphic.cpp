@@ -20,8 +20,8 @@ Graphic::Graphic()
 
 	// フォントの初期化
 	D3DXCreateFont(d3dDevice,
-		32,							// 文字の高さ
-		16,							// フォントの文字の幅
+		48,							// 文字の高さ
+		32,							// フォントの文字の幅
 		FW_NORMAL,					// フォントのウェイト
 		0,							// 要求されるミップレベルの数
 		false,						// 斜体フォントの場合はtrue
@@ -29,7 +29,7 @@ Graphic::Graphic()
 		0,							//出力精度
 		DEFAULT_QUALITY,			//出力品質
 		DEFAULT_PITCH || FF_DONTCARE,	//フォントのピッチとファミリ
-		"",							//フォントの書体
+		"Consolas",							//フォントの書体
 		&font);
 
 	D3DXMatrixIdentity(&m_world);

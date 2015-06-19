@@ -44,7 +44,7 @@ void Boss::InitBoss()
 	State->Position.z = (float)((double)rand() / RAND_MAX * range.z) + State->MinRange.z;
 	State->Rotation = D3DXVECTOR3(0, 0, 0);
 	State->Scale = D3DXVECTOR3(1000, 1000, 1000);
-	State->Vitality = 1500;
+	State->Vitality = 1000;
 	State->DeathCount = 0;
 	State->CountFlag = false;
 	State->DeathFlag = false;
@@ -72,18 +72,23 @@ void Boss::Release()
 //	“G‚Ì•`‰æ
 void Boss::Draw()
 {
+	int c = 0;
 	int random = 0;
-	if (State->CountFlag == false)
+	c++;
+	if (c % 100 == 0)
 	{
-		random = rand() % 1000;
-		if (random == 256)
+		if (State->CountFlag == false)
 		{
-			State->CountFlag = true;
+			random = rand() % 100;
+			if (random == 59)
+			{
+				State->CountFlag = true;
+			}
 		}
-	}
-	if (State->DeathFlag == false && State->CountFlag == true)
-	{
-		boss->DrawModelTexture(State->Position, State->Rotation, State->Scale, *model, *texture, true);
+		if (State->DeathFlag == false && State->CountFlag == true)
+		{
+			boss->DrawModelTexture(State->Position, State->Rotation, State->Scale, *model, *texture, true);
+		}
 	}
 	if (State->DeathFlag == true)
 	{

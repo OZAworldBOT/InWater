@@ -8,6 +8,8 @@
 
 extern LPDIRECT3DDEVICE9 d3dDevice;
 
+inline DWORD FtoDW(float f){ return *((DWORD*)&f); }
+
 //	デフォルトコンストラクタ
 Light::Light()
 {
@@ -33,6 +35,14 @@ Light::Light()
 	d3dDevice->SetRenderState(D3DRS_LIGHTING, true);
 	d3dDevice->SetRenderState(D3DRS_AMBIENT, 0x00111111);
 	d3dDevice->SetRenderState(D3DRS_SPECULARENABLE, true);
+	
+	//	霧の発生
+	d3dDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	d3dDevice->SetRenderState(D3DRS_FOGCOLOR, 0xff000033);
+	d3dDevice->SetRenderState(D3DRS_FOGSTART, FtoDW(100.0f));
+	d3dDevice->SetRenderState(D3DRS_FOGEND, FtoDW(315.0f));
+	d3dDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDW(0.1f));
+	d3dDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
 }
 
 //	デストラクタ
