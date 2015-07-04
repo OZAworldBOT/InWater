@@ -41,7 +41,6 @@ Light::Light()
 	d3dDevice->SetRenderState(D3DRS_FOGCOLOR, 0xff000033);
 	d3dDevice->SetRenderState(D3DRS_FOGSTART, FtoDW(100.0f));
 	d3dDevice->SetRenderState(D3DRS_FOGEND, FtoDW(315.0f));
-	d3dDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDW(0.1f));
 	d3dDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
 }
 
